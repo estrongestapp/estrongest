@@ -1,11 +1,13 @@
 import styled from 'styled-components';
 
 import Reading from './Reading';
+import GoodAction from './GoodAction';
 
 export default function Homework() {
     return (
         <Container>
             <Reading />
+            <GoodAction />
         </Container>
     );
 }
