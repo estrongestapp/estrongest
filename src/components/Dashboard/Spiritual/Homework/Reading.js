@@ -1,48 +1,69 @@
 import styled from 'styled-components';
-import { useContext } from 'react';
+import { useState, useContext } from 'react';
 import moment from 'moment';
 
 import InformationContext from '../../../../contexts/InformationContext';
 
 import {
     Typography,
+    FormGroup,
     FormControlLabel,
-    RadioGroup,
-    Radio, 
+    Checkbox,
 } from '@mui/material';
-
 
 export default function Game() {
     const { information, changeInformation } = useContext(InformationContext);
 
-    function getWeekDays() {
+    function getWeekdays() {
         const monday = moment().utc(true).day(1);
         const friday = moment().utc(true).day(5);
+
+        const weekdays = [];
+        for (let day = monday; day.isSameOrBefore(friday); day.add(1, 'days')) {
+            weekdays.push(day.format('DD/MM'));
+        }
+
+        return weekdays;
     }
 
-    function changeStatus(status) {
+    function changeStatus(target) {
+        const tasks = information?.espiritual?.reading || {};
+        
+        tasks[target.value] = target.checked;
+
         changeInformation({
             ...information,
             espiritual: {
                 ...information?.espiritual,
-                reading: status === 'yes',
+                reading: tasks,
             },
         });
+    }
+
+    function verifyChecked(weekday) {
+        const tasks = information?.espiritual?.reading || {};
+
+        if (tasks[weekday]) {
+            return tasks[weekday];
+        } else {
+            return false;
+        }
     }
 
     return (
         <Container>
             <Title>
-                Você venceu o reading dessa semana?
+                Quais tarefas vocês fez essa semana?
             </Title>
-            <RadioGroup
-                row
-                sx={{ justifyContent: 'center' }}
-                onChange={(event) => changeStatus(event.target.value)}
-            >
-                <FormControlLabel value='yes' control={<Radio />} label='Sim' checked={information?.espiritual?.reading === true} />
-                <FormControlLabel value='no' control={<Radio />} label='Não' checked={information?.espiritual?.reading === false} />
-            </RadioGroup>
+            <FormGroup onChange={(event) => changeStatus(event.target)}>
+                {getWeekdays().map((weekday, index) => 
+                    <FormControlLabel
+                        key={index}
+                        control={<Checkbox value={weekday} checked={verifyChecked(weekday)} />}
+                        label={weekday}
+                    />
+                )}
+            </FormGroup>
         </Container>
     );
 }
