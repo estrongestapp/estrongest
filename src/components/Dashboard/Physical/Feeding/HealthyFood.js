@@ -13,27 +13,33 @@ import {
 
 export default function HealthyFood() {
     const { information, changeInformation } = useContext(InformationContext);
+    const week = moment().utc(true).week();
     const today = moment().utc(true).toISOString().substring(0, 10);
 
     function changeStatus(status) {
-        const alimento = information?.fisico?.alimento || {};
-
-        alimento[today] = status === 'yes';
+        const alimentoProgress = information?.fisico?.alimento || {};
+        if (`${week}` in alimentoProgress) {
+            alimentoProgress[week][today] = status === 'yes';
+        } else {
+            alimentoProgress[week] = {};
+            alimentoProgress[week][today] = status === 'yes';
+        }
 
         changeInformation({
             ...information,
             fisico: {
                 ...information?.fisico,
-                alimento,
+                alimento: alimentoProgress,
             },
         });
     }
 
     function getCheckedDay() {
         const alimento = information?.fisico?.alimento || {};
+        const thisWeekProgress = `${week}` in alimento ? alimento[week] : {};
 
-        if (Object.keys(alimento).includes(today)) {
-            return alimento[today];
+        if (`${today}` in thisWeekProgress) {
+            return thisWeekProgress[today];
         } else {
             return null;
         }

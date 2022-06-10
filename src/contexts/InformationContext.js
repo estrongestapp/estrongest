@@ -7,13 +7,21 @@ export default InformationContext;
 /*
     {
         fisico: {
-            exercicio: number,
+            exercico: {
+                'semana': number,
+            }
             alimento: {
-                'dia': boolean,
+                'semana': {
+                    'dia': boolean,
+                },
             },
-            refri: number,
+            refri: {
+                'semana': number,
+            }
             agua: {
-                'dia': boolean,
+                'semana': {
+                    'dia': boolean,
+                },
             },
         },
         intelectual: {

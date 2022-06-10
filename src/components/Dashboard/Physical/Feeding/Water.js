@@ -13,27 +13,33 @@ import {
 
 export default function Water() {
     const { information, changeInformation } = useContext(InformationContext);
-    const today = moment().utc(true).toISOString().substring(0, 10)
+    const week = moment().utc(true).week();
+    const today = moment().utc(true).toISOString().substring(0, 10);
 
     function changeStatus(status) {
-        const agua = information?.fisico?.agua || {};
-
-        agua[today] = status === 'yes';
+        const aguaProgress = information?.fisico?.agua || {};
+        if (`${week}` in aguaProgress) {
+            aguaProgress[week][today] = status === 'yes';
+        } else {
+            aguaProgress[week] = {};
+            aguaProgress[week][today] = status === 'yes';
+        }
 
         changeInformation({
             ...information,
             fisico: {
                 ...information?.fisico,
-                agua,
+                agua: aguaProgress,
             },
         });
     }
 
     function getCheckedDay() {
         const agua = information?.fisico?.agua || {};
+        const thisWeekProgress = `${week}` in agua ? agua[week] : {};
 
-        if (Object.keys(agua).includes(today)) {
-            return agua[today];
+        if (`${today}` in thisWeekProgress) {
+            return thisWeekProgress[today];
         } else {
             return null;
         }

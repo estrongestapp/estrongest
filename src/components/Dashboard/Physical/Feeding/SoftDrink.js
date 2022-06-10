@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useContext } from 'react';
+import moment from 'moment';
 
 import InformationContext from '../../../../contexts/InformationContext';
 
@@ -8,17 +9,25 @@ import { AddCircle } from '@mui/icons-material';
 
 export default function SoftDrink() {
     const { information, changeInformation } = useContext(InformationContext);
+    const week = moment().utc(true).week();
 
     function addOne() {
-        const timesBefore = information?.fisico?.refri || 0;
-
+        const refriProgress = information?.fisico?.refri || {};
+        const timesBefore = refriProgress[week] || 0;
+        refriProgress[week] = timesBefore + 1;
+        
         changeInformation({
             ...information,
             fisico: {
                 ...information?.fisico,
-                refri: timesBefore + 1,
+                refri: refriProgress,
             },
         });
+    }
+
+    function getProgress() {
+        const refri = information?.fisico?.refri || {};
+        return `${week}` in refri ? refri[week] : 0;
     }
 
     return (
@@ -29,7 +38,7 @@ export default function SoftDrink() {
             </Title>
             <ProgressContainer>
                 <p>
-                    {information?.fisico?.refri || 0}
+                    {getProgress()}
                 </p>
                 <IconButton onClick={addOne}>
                     <AddCircle
