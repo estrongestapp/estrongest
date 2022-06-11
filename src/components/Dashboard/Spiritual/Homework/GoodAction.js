@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useContext } from 'react';
+import moment from 'moment';
 
 import InformationContext from '../../../../contexts/InformationContext';
 
@@ -7,19 +8,27 @@ import { Typography, IconButton } from '@mui/material';
 import { AddCircle } from '@mui/icons-material';
 import { CircularProgressbar } from 'react-circular-progressbar';
 
-export default function SoftDrink() {
+export default function GoodAction() {
     const { information, changeInformation } = useContext(InformationContext);
+    const week = moment().utc(true).week();
 
     function addOne() {
-        const timesBefore = information?.espiritual?.boaAcao || 0;
-
+        const boaAcaoProgress = information?.espiritual?.boaAcao || {};
+        const timesBefore = boaAcaoProgress[week] || 0;
+        boaAcaoProgress[week] = timesBefore + 1;
+        
         changeInformation({
             ...information,
             espiritual: {
                 ...information?.espiritual,
-                boaAcao: timesBefore + 1,
+                boaAcao: boaAcaoProgress,
             },
         });
+    }
+
+    function getProgress() {
+        const boaAcao = information?.espiritual?.boaAcao || {};
+        return `${week}` in boaAcao ? boaAcao[week] : 0;
     }
 
     return (
@@ -30,11 +39,11 @@ export default function SoftDrink() {
             </Title>
             <ProgressContainer>
                 <CircularProgressbar
-                    value={information?.espiritual?.boaAcao || 0}
+                    value={getProgress()}
                     maxValue={3}
-                    text={`${information?.espiritual?.boaAcao || 0}`}
+                    text={`${getProgress()}`}
                 />
-                <IconButton onClick={addOne} disabled={information?.espiritual?.boaAcao > 2}>
+                <IconButton onClick={addOne} disabled={getProgress() > 2}>
                     <AddCircle
                         sx={{
                             color: '#BF211E',

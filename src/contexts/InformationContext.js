@@ -48,15 +48,32 @@ export default InformationContext;
             },
             namoro: {
                 'semana': boolean,
-            },,
+            },
         },
         espiritual: {
-            reuniao: boolean,
-            game: boolean,
-            culto: boolean,
-            ministerio: boolean,
-            live: boolean,
-            
+            reuniao: {
+                'semana': boolean,
+            },
+            game: {
+                'semana': boolean,
+            },
+            culto: {
+                'semana': boolean,
+            },
+            ministerio: {
+                'semana': boolean,
+            },
+            live: {
+                'semana': boolean,
+            },
+            leitura: {
+                'semana': {
+                    'dia': boolean,
+                },
+            },
+            boaAcao: {
+                'semana': number,
+            },
         },
     };
 */

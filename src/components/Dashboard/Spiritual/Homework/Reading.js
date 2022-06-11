@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import moment from 'moment';
 
 import InformationContext from '../../../../contexts/InformationContext';
@@ -13,6 +13,7 @@ import {
 
 export default function Game() {
     const { information, changeInformation } = useContext(InformationContext);
+    const week = moment().utc(true).week();
 
     function getWeekdays() {
         const monday = moment().utc(true).day(1);
@@ -27,24 +28,29 @@ export default function Game() {
     }
 
     function changeStatus(target) {
-        const tasks = information?.espiritual?.reading || {};
-        
-        tasks[target.value] = target.checked;
+        const leituraProgress = information?.espiritual?.leitura || {};
+        if (`${week}` in leituraProgress) {
+            leituraProgress[week][target.value] = target.checked;
+        } else {
+            leituraProgress[week] = {};
+            leituraProgress[week][target.value] = target.checked;
+        }
 
         changeInformation({
             ...information,
             espiritual: {
                 ...information?.espiritual,
-                reading: tasks,
+                leitura: leituraProgress,
             },
         });
     }
 
     function verifyChecked(weekday) {
-        const tasks = information?.espiritual?.reading || {};
+        const leitura = information?.espiritual?.leitura || {};
+        const thisWeekProgress = leitura[week] || {};
 
-        if (tasks[weekday]) {
-            return tasks[weekday];
+        if (thisWeekProgress[weekday]) {
+            return thisWeekProgress[weekday];
         } else {
             return false;
         }

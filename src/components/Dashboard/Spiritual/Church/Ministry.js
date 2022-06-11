@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useContext } from 'react';
+import moment from 'moment';
 
 import InformationContext from '../../../../contexts/InformationContext';
 
@@ -13,15 +14,24 @@ import {
 
 export default function Ministry() {
     const { information, changeInformation } = useContext(InformationContext);
+    const week = moment().utc(true).week();
 
     function changeStatus(status) {
+        const ministerioProgress = information?.espiritual?.ministerio || {};
+        ministerioProgress[week] = status === 'yes';
+
         changeInformation({
             ...information,
             espiritual: {
                 ...information?.espiritual,
-                ministerio: status === 'yes',
+                ministerio: ministerioProgress,
             },
         });
+    }
+
+    function getProgress() {
+        const ministerio = information?.espiritual?.ministerio || {};
+        return `${week}` in ministerio ? ministerio[week] : null;
     }
 
     return (
@@ -34,8 +44,8 @@ export default function Ministry() {
                 sx={{ justifyContent: 'center' }}
                 onChange={(event) => changeStatus(event.target.value)}
             >
-                <FormControlLabel value='yes' control={<Radio />} label='Sim' checked={information?.espiritual?.ministerio === true} />
-                <FormControlLabel value='no' control={<Radio />} label='Não' checked={information?.espiritual?.ministerio === false} />
+                <FormControlLabel value='yes' control={<Radio />} label='Sim' checked={getProgress() === true} />
+                <FormControlLabel value='no' control={<Radio />} label='Não' checked={getProgress() === false} />
             </RadioGroup>
         </Container>
     );

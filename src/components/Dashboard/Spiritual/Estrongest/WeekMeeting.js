@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useContext } from 'react';
+import moment from 'moment';
 
 import InformationContext from '../../../../contexts/InformationContext';
 
@@ -13,15 +14,24 @@ import {
 
 export default function WeekMeeting() {
     const { information, changeInformation } = useContext(InformationContext);
+    const week = moment().utc(true).week();
 
     function changeStatus(status) {
+        const reuniaoProgress = information?.espiritual?.reuniao || {};
+        reuniaoProgress[week] = status === 'yes';
+
         changeInformation({
             ...information,
             espiritual: {
                 ...information?.espiritual,
-                reuniao: status === 'yes',
+                reuniao: reuniaoProgress,
             },
         });
+    }
+
+    function getProgress() {
+        const reuniao = information?.espiritual?.reuniao || {};
+        return `${week}` in reuniao ? reuniao[week] : null;
     }
 
     return (
@@ -34,8 +44,8 @@ export default function WeekMeeting() {
                 sx={{ justifyContent: 'center' }}
                 onChange={(event) => changeStatus(event.target.value)}
             >
-                <FormControlLabel value='yes' control={<Radio />} label='Sim' checked={information?.espiritual?.reuniao === true} />
-                <FormControlLabel value='no' control={<Radio />} label='Não' checked={information?.espiritual?.reuniao === false} />
+                <FormControlLabel value='yes' control={<Radio />} label='Sim' checked={getProgress() === true} />
+                <FormControlLabel value='no' control={<Radio />} label='Não' checked={getProgress() === false} />
             </RadioGroup>
         </Container>
     );

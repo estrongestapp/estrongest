@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useContext } from 'react';
+import moment from 'moment';
 
 import InformationContext from '../../../../contexts/InformationContext';
 
@@ -13,15 +14,24 @@ import {
 
 export default function Game() {
     const { information, changeInformation } = useContext(InformationContext);
+    const week = moment().utc(true).week();
 
     function changeStatus(status) {
+        const gameProgress = information?.espiritual?.game || {};
+        gameProgress[week] = status === 'yes';
+
         changeInformation({
             ...information,
             espiritual: {
                 ...information?.espiritual,
-                game: status === 'yes',
+                game: gameProgress,
             },
         });
+    }
+
+    function getProgress() {
+        const game = information?.espiritual?.game || {};
+        return `${week}` in game ? game[week] : null;
     }
 
     return (
@@ -34,8 +44,8 @@ export default function Game() {
                 sx={{ justifyContent: 'center' }}
                 onChange={(event) => changeStatus(event.target.value)}
             >
-                <FormControlLabel value='yes' control={<Radio />} label='Sim' checked={information?.espiritual?.game === true} />
-                <FormControlLabel value='no' control={<Radio />} label='Não' checked={information?.espiritual?.game === false} />
+                <FormControlLabel value='yes' control={<Radio />} label='Sim' checked={getProgress() === true} />
+                <FormControlLabel value='no' control={<Radio />} label='Não' checked={getProgress() === false} />
             </RadioGroup>
         </Container>
     );
