@@ -1,12 +1,26 @@
 import styled from 'styled-components';
+import { useContext } from 'react';
+import moment from 'moment';
+
+import InformationContext from '../../../contexts/InformationContext';
+import calculationHelper from './calculationHelper';
 
 import { Typography } from '@mui/material';
 
 export default function Header() {
+    const { information } = useContext(InformationContext);
+
+    function calculatePoints() {
+        const fisico = information?.fisico || {};
+        const fisicoPoints = calculationHelper.fisico(fisico);
+
+        return fisicoPoints;
+    }
+
     return (
         <Container>
             <Points>
-                Pontos essa semana: 0/100
+                Pontos essa semana: {calculatePoints()}/100
             </Points>
         </Container>
     );
