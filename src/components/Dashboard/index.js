@@ -3,13 +3,16 @@ import { Outlet } from 'react-router-dom';
 
 import Header from './Header';
 import Footer from './Footer';
+import BlockedOnSunday from './BlockedOnSunday';
 
 export default function Dashboard() {
     return (
         <Container>
-            <Header />
-            <Outlet />
-            <Footer />
+            <BlockedOnSunday>
+                <Header />
+                <Outlet />
+                <Footer />
+            </BlockedOnSunday>
         </Container>
     );
 }
