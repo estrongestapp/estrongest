@@ -9,28 +9,35 @@ import WeekProgress from './WeekProgress';
 
 export default function Internet() {
     const { information, changeInformation } = useContext(InformationContext);
+    const week = moment().utc(true).week();
     const today = moment().utc(true).toISOString().substring(0, 10);
 
     function addMinutes(minutes) {
-        const internet = information?.emocional?.internet || {};
-        const minutesBefore = internet[today] || 0;
+        const internetProgress = information?.emocional?.internet || {};
 
-        internet[today] = minutesBefore + Number(minutes);
+        if (`${week}` in internetProgress) {
+            const minutesBefore = internetProgress[week][today] || 0;
+            internetProgress[week][today] = minutesBefore + Number(minutes);
+        } else {
+            internetProgress[week] = {};
+            internetProgress[week][today] = Number(minutes);
+        }
 
         changeInformation({
             ...information,
             emocional: {
                 ...information?.emocional,
-                internet,
+                internet: internetProgress,
             },
         });
     }
 
-    function getTodayMinutes() {
+    function getProgress() {
         const internet = information?.emocional?.internet || {};
+        const thisWeekProgress = `${week}` in internet ? internet[week] : {};
 
-        if (Object.keys(internet).includes(today)) {
-            return internet[today];
+        if (`${today}` in thisWeekProgress) {
+            return thisWeekProgress[today];
         } else {
             return 0;
         }
@@ -38,8 +45,8 @@ export default function Internet() {
 
     return (
         <Container>
-            <AddMinutes progress={getTodayMinutes()} addMinutes={addMinutes} />
-            <WeekProgress progress={getTodayMinutes()} />
+            <AddMinutes progress={getProgress()} addMinutes={addMinutes} />
+            <WeekProgress progress={getProgress()} />
         </Container>
     );
 }

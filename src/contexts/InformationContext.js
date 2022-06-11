@@ -42,9 +42,13 @@ export default InformationContext;
         },
         emocional: {
             internet: {
-                'dia': number,
+                'semana': {
+                    'dia': number,
+                },
             },
-            namoro: boolean,
+            namoro: {
+                'semana': boolean,
+            },,
         },
         espiritual: {
             reuniao: boolean,
