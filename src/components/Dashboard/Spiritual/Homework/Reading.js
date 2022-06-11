@@ -28,26 +28,26 @@ export default function Game() {
     }
 
     function changeStatus(target) {
-        const leituraProgress = information?.espiritual?.leitura || {};
-        if (`${week}` in leituraProgress) {
-            leituraProgress[week][target.value] = target.checked;
+        const tarefaProgress = information?.espiritual?.tarefa || {};
+        if (`${week}` in tarefaProgress) {
+            tarefaProgress[week][target.value] = target.checked;
         } else {
-            leituraProgress[week] = {};
-            leituraProgress[week][target.value] = target.checked;
+            tarefaProgress[week] = {};
+            tarefaProgress[week][target.value] = target.checked;
         }
 
         changeInformation({
             ...information,
             espiritual: {
                 ...information?.espiritual,
-                leitura: leituraProgress,
+                tarefa: tarefaProgress,
             },
         });
     }
 
     function verifyChecked(weekday) {
-        const leitura = information?.espiritual?.leitura || {};
-        const thisWeekProgress = leitura[week] || {};
+        const tarefa = information?.espiritual?.tarefa || {};
+        const thisWeekProgress = tarefa[week] || {};
 
         if (thisWeekProgress[weekday]) {
             return thisWeekProgress[weekday];
