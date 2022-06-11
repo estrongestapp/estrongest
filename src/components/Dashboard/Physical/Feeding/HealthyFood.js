@@ -55,8 +55,20 @@ export default function HealthyFood() {
                 sx={{ justifyContent: 'center' }}
                 onChange={(event) => changeStatus(event.target.value)}
             >
-                <FormControlLabel value='yes' control={<Radio />} label='Sim' checked={getCheckedDay() === true} />
-                <FormControlLabel value='no' control={<Radio />} label='Não' checked={getCheckedDay() === false} />
+                <FormControlLabel
+                    value='yes'
+                    control={<Radio />}
+                    label='Sim'
+                    checked={getCheckedDay() === true}
+                    disabled={moment().utc(true).day() === 6}
+                />
+                <FormControlLabel
+                    value='no'
+                    control={<Radio />}
+                    label='Não'
+                    checked={getCheckedDay() === false}
+                    disabled={moment().utc(true).day() === 6}
+                />
             </RadioGroup>
         </Container>
     );

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useState } from 'react';
+import moment from 'moment';
 
 import { Typography, TextField, IconButton } from '@mui/material';
 import { AddCircle } from '@mui/icons-material';
@@ -26,8 +27,9 @@ export default function AddMinutes({ progress, addMinutes }) {
                     sx={{
                         width: 100,
                     }}
+                    disabled={moment().utc(true).day() === 6}
                 />
-                <IconButton onClick={handleClick}>
+                <IconButton onClick={handleClick} disabled={moment().utc(true).day() === 6}>
                     <AddCircle
                         size='inherit'
                         sx={{
