@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { useContext } from 'react';
-import moment from 'moment';
 
 import InformationContext from '../../../contexts/InformationContext';
 import calculationHelper from './calculationHelper';
@@ -12,9 +11,16 @@ export default function Header() {
 
     function calculatePoints() {
         const fisico = information?.fisico || {};
-        const fisicoPoints = calculationHelper.fisico(fisico);
+        const intelectual = information?.intelectual || {};
+        const emocional = information?.emocional || {};
+        const espiritual = information?.espiritual || {};
 
-        return fisicoPoints;
+        const fisicoPoints = calculationHelper.fisico(fisico);
+        const intelectualPoints = calculationHelper.intelectual(intelectual);
+        const emocionalPoints = calculationHelper.emocional(emocional);
+        const espiritualPoints = calculationHelper.espiritual(espiritual);
+
+        return fisicoPoints + intelectualPoints + emocionalPoints + espiritualPoints;
     }
 
     return (
