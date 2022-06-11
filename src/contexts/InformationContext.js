@@ -25,14 +25,20 @@ export default InformationContext;
             },
         },
         intelectual: {
-            estudo: number,
-            leitura: number,
-            notas: [
-                {
-                    materia: string,
-                    nota: number,
-                }
-            ]
+            estudo: {
+                'semana': number,
+            },
+            leitura: {
+                'semana': number,
+            },
+            notas: {
+                'semana': [
+                    {
+                        materia: string,
+                        nota: number,
+                    }
+                ]
+            }
         },
         emocional: {
             internet: {

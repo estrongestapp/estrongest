@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useContext } from 'react';
+import moment from 'moment';
 
 import InformationContext from '../../../../contexts/InformationContext';
 
@@ -8,23 +9,31 @@ import WeekProgress from './WeekProgress';
 
 export default function Reading() {
     const { information, changeInformation } = useContext(InformationContext);
+    const week = moment().utc(true).week();
 
-    function addMinutes(minutes) {
-        const minutesBefore = information?.intelectual?.leitura || 0;
-
+    function addPages(pages) {
+        const leituraProgress = information?.intelectual?.leitura || {};
+        const pagesBefore = leituraProgress[week] || 0;
+        leituraProgress[week] = pagesBefore + Number(pages);
+        
         changeInformation({
             ...information,
             intelectual: {
                 ...information?.intelectual,
-                leitura: minutesBefore + Number(minutes),
+                leitura: leituraProgress,
             },
         });
     }
 
+    function getProgress() {
+        const leitura = information?.intelectual?.leitura || {};
+        return `${week}` in leitura ? leitura[week] : 0;
+    }
+
     return (
         <Container>
-            <AddPages progress={information?.intelectual?.leitura || 0} addMinutes={addMinutes} />
-            <WeekProgress progress={information?.intelectual?.leitura || 0} />
+            <AddPages progress={getProgress()} addPages={addPages} />
+            <WeekProgress progress={getProgress()} />
         </Container>
     );
 }

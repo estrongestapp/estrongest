@@ -4,12 +4,12 @@ import { useState } from 'react';
 import { Typography, TextField, IconButton } from '@mui/material';
 import { AddCircle } from '@mui/icons-material';
 
-export default function AddPages({ progress, addMinutes }) {
-    const [minutesToAdd, setMinutesToAdd] = useState('');
+export default function AddPages({ progress, addPages }) {
+    const [pagesToAdd, setPagesToAdd] = useState('');
 
     function handleClick() {
-        addMinutes(minutesToAdd);
-        setMinutesToAdd('');
+        addPages(pagesToAdd);
+        setPagesToAdd('');
     }
 
     return (
@@ -21,8 +21,8 @@ export default function AddPages({ progress, addMinutes }) {
                 <TextField
                     type='number'
                     variant='outlined'
-                    value={minutesToAdd}
-                    onChange={(event) => setMinutesToAdd(event.target.value)}
+                    value={pagesToAdd}
+                    onChange={(event) => setPagesToAdd(event.target.value)}
                     sx={{
                         width: 100,
                     }}
