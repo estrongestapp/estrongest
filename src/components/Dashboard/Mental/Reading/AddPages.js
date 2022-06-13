@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 
-import { Typography, TextField, IconButton } from '@mui/material';
-import { AddCircle } from '@mui/icons-material';
+import { Typography, TextField, IconButton, Tooltip } from '@mui/material';
+import { AddCircle, RemoveCircle } from '@mui/icons-material';
 
 export default function AddPages({ progress, addPages }) {
     const [pagesToAdd, setPagesToAdd] = useState('');
 
-    function handleClick() {
-        addPages(pagesToAdd);
+    function handleClick(type) {
+        addPages(pagesToAdd, type);
         setPagesToAdd('');
     }
 
@@ -18,6 +18,17 @@ export default function AddPages({ progress, addPages }) {
                 Adicionar páginas lidas
             </Title>
             <InputContainer>
+                <Tooltip title='Remover'>
+                    <IconButton onClick={() => handleClick('remove')} disabled={progress <= 0}>
+                        <RemoveCircle
+                            size='inherit'
+                            sx={{
+                                color: '#BF211E',
+                                fontSize: 30,
+                            }}
+                        />
+                    </IconButton>
+                </Tooltip>
                 <TextField
                     type='number'
                     variant='outlined'
@@ -27,15 +38,17 @@ export default function AddPages({ progress, addPages }) {
                         width: 100,
                     }}
                 />
-                <IconButton onClick={handleClick} disabled={progress >= 50}>
-                    <AddCircle
-                        size='inherit'
-                        sx={{
-                            color: '#BF211E',
-                            fontSize: 30,
-                        }}
-                    />
-                </IconButton>
+                <Tooltip title='Adicionar'>
+                    <IconButton onClick={() => handleClick('add')} disabled={progress >= 50}>
+                        <AddCircle
+                            size='inherit'
+                            sx={{
+                                color: '#BF211E',
+                                fontSize: 30,
+                            }}
+                        />
+                    </IconButton>
+                </Tooltip>
             </InputContainer>
         </Container>
     );

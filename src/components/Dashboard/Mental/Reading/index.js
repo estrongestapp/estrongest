@@ -11,10 +11,16 @@ export default function Reading() {
     const { information, changeInformation } = useContext(InformationContext);
     const week = moment().utc(true).week();
 
-    function addPages(pages) {
+    function addPages(pages, type) {
         const leituraProgress = information?.intelectual?.leitura || {};
         const pagesBefore = leituraProgress[week] || 0;
-        leituraProgress[week] = pagesBefore + Number(pages);
+        if (type === 'add') {
+            const newProgress = pagesBefore + Number(pages);
+            leituraProgress[week] = newProgress >= 50 ? 50 : newProgress;
+        } else {
+            const newProgress = pagesBefore - Number(pages);
+            leituraProgress[week] = newProgress <= 0 ? 0 : newProgress;
+        }
         
         changeInformation({
             ...information,

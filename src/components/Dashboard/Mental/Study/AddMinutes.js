@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 
-import { Typography, TextField, IconButton } from '@mui/material';
-import { AddCircle } from '@mui/icons-material';
+import { Typography, TextField, IconButton, Tooltip } from '@mui/material';
+import { AddCircle, RemoveCircle } from '@mui/icons-material';
 
 export default function AddMinutes({ progress, addMinutes }) {
     const [minutesToAdd, setMinutesToAdd] = useState('');
 
-    function handleClick() {
-        addMinutes(minutesToAdd);
+    function handleClick(type) {
+        addMinutes(minutesToAdd, type);
         setMinutesToAdd('');
     }
 
@@ -18,6 +18,17 @@ export default function AddMinutes({ progress, addMinutes }) {
                 Adicionar minutos de estudo
             </Title>
             <InputContainer>
+                <Tooltip title='Remover'>
+                    <IconButton onClick={() => handleClick('remove')} disabled={progress <= 0}>
+                        <RemoveCircle
+                            size='inherit'
+                            sx={{
+                                color: '#BF211E',
+                                fontSize: 30,
+                            }}
+                        />
+                    </IconButton>
+                </Tooltip>
                 <TextField
                     type='number'
                     variant='outlined'
@@ -27,15 +38,17 @@ export default function AddMinutes({ progress, addMinutes }) {
                         width: 100,
                     }}
                 />
-                <IconButton onClick={handleClick} disabled={progress >= 300}>
-                    <AddCircle
-                        size='inherit'
-                        sx={{
-                            color: '#BF211E',
-                            fontSize: 30,
-                        }}
-                    />
-                </IconButton>
+                <Tooltip title='Adicionar'>
+                    <IconButton onClick={() => handleClick('add')} disabled={progress >= 300}>
+                        <AddCircle
+                            size='inherit'
+                            sx={{
+                                color: '#BF211E',
+                                fontSize: 30,
+                            }}
+                        />
+                    </IconButton>
+                </Tooltip>
             </InputContainer>
         </Container>
     );

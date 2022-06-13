@@ -4,18 +4,18 @@ import moment from 'moment';
 
 import InformationContext from '../../../../contexts/InformationContext';
 
-import { Typography, IconButton } from '@mui/material';
-import { AddCircle } from '@mui/icons-material';
+import { Typography, IconButton, Tooltip } from '@mui/material';
+import { AddCircle, RemoveCircle } from '@mui/icons-material';
 import { CircularProgressbar } from 'react-circular-progressbar';
 
 export default function GoodAction() {
     const { information, changeInformation } = useContext(InformationContext);
     const week = moment().utc(true).week();
 
-    function addOne() {
+    function handleClick(type) {
         const boaAcaoProgress = information?.espiritual?.boaAcao || {};
         const timesBefore = boaAcaoProgress[week] || 0;
-        boaAcaoProgress[week] = timesBefore + 1;
+        boaAcaoProgress[week] = type === 'add' ? timesBefore + 1 : timesBefore - 1;
         
         changeInformation({
             ...information,
@@ -43,14 +43,28 @@ export default function GoodAction() {
                     maxValue={3}
                     text={`${getProgress()}`}
                 />
-                <IconButton onClick={addOne} disabled={getProgress() > 2}>
-                    <AddCircle
-                        sx={{
-                            color: '#BF211E',
-                            fontSize: 40,
-                        }}
-                    />
-                </IconButton>
+                <Tooltip title='Remover'>
+                    <IconButton onClick={() => handleClick('remove')} disabled={getProgress() <= 0}>
+                        <RemoveCircle
+                            size='inherit'
+                            sx={{
+                                color: '#BF211E',
+                                fontSize: 30,
+                            }}
+                        />
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title='Adicionar'>
+                    <IconButton onClick={() => handleClick('add')} disabled={getProgress() >= 3}>
+                        <AddCircle
+                            size='inherit'
+                            sx={{
+                                color: '#BF211E',
+                                fontSize: 30,
+                            }}
+                        />
+                    </IconButton>
+                </Tooltip>
             </ProgressContainer>
         </Container>
     );

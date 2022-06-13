@@ -11,10 +11,16 @@ export default function Study() {
     const { information, changeInformation } = useContext(InformationContext);
     const week = moment().utc(true).week();
 
-    function addMinutes(minutes) {
+    function addMinutes(minutes, type) {
         const estudoProgress = information?.intelectual?.estudo || {};
         const minutesBefore = estudoProgress[week] || 0;
-        estudoProgress[week] = minutesBefore + Number(minutes);
+        if (type === 'add') {
+            const newProgress = minutesBefore + Number(minutes);
+            estudoProgress[week] = newProgress >= 300 ? 300 : newProgress;
+        } else {
+            const newProgress = minutesBefore - Number(minutes);
+            estudoProgress[week] = newProgress <= 0 ? 0 : newProgress;
+        }
         
         changeInformation({
             ...information,

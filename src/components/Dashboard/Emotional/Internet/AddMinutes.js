@@ -2,14 +2,14 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import moment from 'moment';
 
-import { Typography, TextField, IconButton } from '@mui/material';
-import { AddCircle } from '@mui/icons-material';
+import { Typography, TextField, IconButton, Tooltip } from '@mui/material';
+import { AddCircle, RemoveCircle } from '@mui/icons-material';
 
 export default function AddMinutes({ progress, addMinutes }) {
     const [minutesToAdd, setMinutesToAdd] = useState('');
 
-    function handleClick() {
-        addMinutes(minutesToAdd);
+    function handleClick(type) {
+        addMinutes(minutesToAdd, type);
         setMinutesToAdd('');
     }
 
@@ -19,6 +19,17 @@ export default function AddMinutes({ progress, addMinutes }) {
                 Quanto tempo de uso de internet por lazer hoje?
             </Title>
             <InputContainer>
+                <Tooltip title='Remover'>
+                    <IconButton onClick={() => handleClick('remove')} disabled={progress <= 0}>
+                        <RemoveCircle
+                            size='inherit'
+                            sx={{
+                                color: '#BF211E',
+                                fontSize: 30,
+                            }}
+                        />
+                    </IconButton>
+                </Tooltip>
                 <TextField
                     type='number'
                     variant='outlined'
@@ -29,15 +40,17 @@ export default function AddMinutes({ progress, addMinutes }) {
                     }}
                     disabled={moment().utc(true).day() === 6}
                 />
-                <IconButton onClick={handleClick} disabled={moment().utc(true).day() === 6}>
-                    <AddCircle
-                        size='inherit'
-                        sx={{
-                            color: '#BF211E',
-                            fontSize: 30,
-                        }}
-                    />
-                </IconButton>
+                <Tooltip title='Adicionar'>
+                    <IconButton onClick={() => handleClick('add')} disabled={moment().utc(true).day() === 6}>
+                        <AddCircle
+                            size='inherit'
+                            sx={{
+                                color: '#BF211E',
+                                fontSize: 30,
+                            }}
+                        />
+                    </IconButton>
+                </Tooltip>
             </InputContainer>
         </Container>
     );

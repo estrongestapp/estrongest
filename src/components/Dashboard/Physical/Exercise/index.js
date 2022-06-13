@@ -11,10 +11,16 @@ export default function Exercise() {
     const { information, changeInformation } = useContext(InformationContext);
     const week = moment().utc(true).week();
 
-    function addMinutes(minutes) {
+    function addMinutes(minutes, type) {
         const exerciseProgress = information?.fisico?.exercicio || {};
         const minutesBefore = exerciseProgress[week] || 0;
-        exerciseProgress[week] = minutesBefore + Number(minutes);
+        if (type === 'add') {
+            const newProgress = minutesBefore + Number(minutes);
+            exerciseProgress[week] = newProgress >= 180 ? 180 : newProgress;
+        } else {
+            const newProgress = minutesBefore - Number(minutes);
+            exerciseProgress[week] = newProgress <= 0 ? 0 : newProgress;
+        }
         
         changeInformation({
             ...information,
