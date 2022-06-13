@@ -15,9 +15,6 @@ export default InformationContext;
                     'dia': boolean,
                 },
             },
-            refri: {
-                'semana': number,
-            }
             agua: {
                 'semana': {
                     'dia': boolean,

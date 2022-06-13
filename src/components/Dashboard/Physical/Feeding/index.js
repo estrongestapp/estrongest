@@ -1,14 +1,12 @@
 import styled from 'styled-components';
 
 import HealthyFood from './HealthyFood';
-import SoftDrink from './SoftDrink';
 import Water from './Water';
 
 export default function Feeding() {
     return (
         <Container>
             <HealthyFood />
-            <SoftDrink />
             <Water />
         </Container>
     );
