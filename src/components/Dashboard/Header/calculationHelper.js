@@ -45,7 +45,7 @@ function calculateFisicoPoints(thisWeekFisico) {
     if (alimentoPoints > 5) alimentoPoints = 5;
     if (exercicioPoints > 10) exercicioPoints = 10;
 
-    return aguaPoints + alimentoPoints + Math.round(exercicioPoints);
+    return aguaPoints + alimentoPoints + Math.floor(exercicioPoints);
 }
 
 function calculateIntelectual(intelecutal) {
@@ -72,7 +72,7 @@ function calculateIntelectualPoints(thisWeekIntelectual) {
     if (estudoPoints > 10) estudoPoints = 10;
     if (leituraPoints > 10) leituraPoints = 10;
 
-    return Math.round(estudoPoints) + Math.round(leituraPoints) + notasPoints;
+    return Math.floor(estudoPoints) + Math.floor(leituraPoints) + notasPoints;
 }
 
 function calculateEmocional(emocional) {
