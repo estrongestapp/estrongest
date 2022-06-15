@@ -56,7 +56,7 @@ function calculateIntelectual(intelecutal) {
     const thisWeekIntelectual = {
         estudo: `${week}` in estudo ? estudo[week] : 0,
         leitura: `${week}` in leitura ? leitura[week] : 0,
-        notas: `${week}` in notas ? notas[week] : false,
+        notas: `${week}` in notas ? notas[week] : 0,
     };
 
     return calculateIntelectualPoints(thisWeekIntelectual);
@@ -67,7 +67,7 @@ function calculateIntelectualPoints(thisWeekIntelectual) {
 
     let estudoPoints = estudo * multipliers.estudo;
     let leituraPoints = leitura * multipliers.leitura;
-    let notasPoints = (notas ? 1 : 0) * multipliers.notas;
+    let notasPoints = notas == false ? 0 : notas.length * multipliers.notas;
 
     if (estudoPoints > 10) estudoPoints = 10;
     if (leituraPoints > 10) leituraPoints = 10;

@@ -1,27 +1,11 @@
-import styled from 'styled-components';
+import { Chip } from '@mui/material';
 
-import { TextField } from '@mui/material';
-
-export default function Subject() {
+export default function Subject({ id, test, handleDelete }) {
     return (
-        <Container>
-            <TextField
-                type='text'
-                variant='outlined'
-                label='Matéria'
-                sx={{ width: '60%' }}
-            />
-            <TextField
-                type='number'
-                variant='outlined'
-                label='Nota'
-                sx={{ width: '30%' }}
-            />
-        </Container>
+        <Chip
+            label={`${test.materia}: ${test.nota}`}
+            variant="outlined"
+            onDelete={() => handleDelete(id)}
+        />
     );
 }
-
-const Container = styled.div`
-    display: flex;
-    justify-content: space-between;
-`;
