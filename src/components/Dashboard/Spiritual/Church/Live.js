@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import moment from 'moment';
 
 import InformationContext from '../../../../contexts/InformationContext';
@@ -8,17 +8,30 @@ import {
     Typography,
     FormControlLabel,
     RadioGroup,
-    Radio, 
+    Radio,
+    TextField,
+    Button,
 } from '@mui/material';
 
+const week = moment().utc(true).week();
 
 export default function Live() {
     const { information, changeInformation } = useContext(InformationContext);
-    const week = moment().utc(true).week();
+    const live = information?.espiritual?.live || {};
+    const [temporary, setTemporary] = useState(!!live[week])
+    const [description, setDescription] = useState(live[week] || '');
 
-    function changeStatus(status) {
+    function temporaryActive(status) {
+        if (status === 'no') {
+            setDescription('');
+            changeStatus(true);
+        }
+        setTemporary(status === 'yes');
+    }
+
+    function changeStatus(clear) {
         const liveProgress = information?.espiritual?.live || {};
-        liveProgress[week] = status === 'yes';
+        liveProgress[week] = clear === true ? '' : description;
 
         changeInformation({
             ...information,
@@ -29,11 +42,6 @@ export default function Live() {
         });
     }
 
-    function getProgress() {
-        const live = information?.espiritual?.live || {};
-        return `${week}` in live ? live[week] : null;
-    }
-
     return (
         <Container>
             <Title>
@@ -42,13 +50,48 @@ export default function Live() {
             <RadioGroup
                 row
                 sx={{ justifyContent: 'center' }}
-                onChange={(event) => changeStatus(event.target.value)}
+                onChange={(event) => temporaryActive(event.target.value)}
             >
-                <FormControlLabel value='yes' control={<Radio />} label='Sim' checked={getProgress() === true} />
-                <FormControlLabel value='no' control={<Radio />} label='Não' checked={getProgress() === false} />
+                <FormControlLabel value='yes' control={<Radio />} label='Sim' checked={temporary === true} />
+                <FormControlLabel value='no' control={<Radio />} label='Não' checked={temporary === false} />
             </RadioGroup>
+            <Details
+                temporary={temporary}
+                information={information}
+                description={description}
+                setDescription={setDescription}
+                changeStatus={changeStatus}
+            />
         </Container>
     );
+}
+
+function Details({ temporary, information, description, setDescription, changeStatus }) {
+    const live = information?.espiritual?.live || {};
+
+    if (temporary || (`${week}` in live && live[week] && live[week])) {
+        return (
+            <>
+                <Typography>
+                    Qual live?
+                </Typography>
+                <TextField
+                    type='text'
+                    variant='outlined'
+                    value={description}
+                    onChange={(event) => setDescription(event.target.value)}
+                    sx={{
+                        width: '100%',
+                    }}
+                />
+                <SaveButton variant="contained" onClick={changeStatus}>
+                    Salvar
+                </SaveButton>
+            </>
+        );
+    } else {
+        return null;
+    }
 }
 
 const Container = styled.div`
@@ -61,4 +104,10 @@ const Container = styled.div`
 const Title = styled(Typography)`
     font-size: 24px !important;
     text-align: center;
+`;
+
+const SaveButton = styled(Button)`
+    background-color: #BF211E !important;
+    font-size: 15;
+    height: 30;
 `;
