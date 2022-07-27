@@ -1,6 +1,4 @@
-import moment from "moment";
-
-const week = moment().utc(true).week();
+/* eslint-disable */
 
 const multipliers = {
     agua: 1,
@@ -20,7 +18,7 @@ const multipliers = {
     boaAcao: 3,
 };
 
-function calculateFisico(fisico) {
+function calculateFisico(fisico, week) {
     const agua = fisico?.agua || {};
     const alimento = fisico?.alimento || {};
     const exercicio = fisico?.exercicio || {};
@@ -48,7 +46,7 @@ function calculateFisicoPoints(thisWeekFisico) {
     return aguaPoints + alimentoPoints + Math.floor(exercicioPoints);
 }
 
-function calculateIntelectual(intelecutal) {
+function calculateIntelectual(intelecutal, week) {
     const estudo = intelecutal?.estudo || {};
     const leitura = intelecutal?.leitura || {};
     const notas = intelecutal?.notas || {};
@@ -75,7 +73,7 @@ function calculateIntelectualPoints(thisWeekIntelectual) {
     return Math.floor(estudoPoints) + Math.floor(leituraPoints) + notasPoints;
 }
 
-function calculateEmocional(emocional) {
+function calculateEmocional(emocional, week) {
     const internet = emocional?.internet || {};
     const namoro = emocional?.namoro || {};
 
@@ -109,7 +107,7 @@ function calculateEmocionalPoints(thisWeekEmocional) {
     return internetPoints + namoroPoints;
 }
 
-function calculateEspiritual(espiritual) {
+function calculateEspiritual(espiritual, week) {
     const reuniao = espiritual?.reuniao || {};
     const game = espiritual?.game || {};
     const culto = espiritual?.culto || {};
@@ -147,9 +145,16 @@ function calculateEspiritualPoints(thisWeekEspiritual) {
     return reuniaoPoints + gamePoints + cultoPoints + ministerioPoints + livePoints + tarefaPoints + boaAcaoPoints;
 }
 
-export default {
-    fisico: calculateFisico,
-    intelectual: calculateIntelectual,
-    emocional: calculateEmocional,
-    espiritual: calculateEspiritual,
-};
+export default function calculatePoints(information, week) {
+    const fisico = information?.fisico || {};
+    const intelectual = information?.intelectual || {};
+    const emocional = information?.emocional || {};
+    const espiritual = information?.espiritual || {};
+
+    const fisicoPoints = calculateFisico(fisico, week);
+    const intelectualPoints = calculateIntelectual(intelectual, week);
+    const emocionalPoints = calculateEmocional(emocional, week);
+    const espiritualPoints = calculateEspiritual(espiritual, week);
+
+    return fisicoPoints + intelectualPoints + emocionalPoints + espiritualPoints;
+}
