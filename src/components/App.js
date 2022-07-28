@@ -8,7 +8,6 @@ import {
 import InformationContext from '../contexts/InformationContext';
 
 import Dashboard from './Dashboard';
-import MissingInfo from './Dashboard/MissingInfo';
 import Physical from './Dashboard/Physical';
 import Mental from './Dashboard/Mental';
 import Emotional from './Dashboard/Emotional';
@@ -27,7 +26,6 @@ export default function App() {
       <InformationContext.Provider value={{ information, changeInformation }}>
         <Routes>
           <Route path='/' element={<Dashboard />}>
-            <Route index element={<MissingInfo />} />
             <Route path='fisico' element={<Physical />} />
             <Route path='intelectual' element={<Mental />} />
             <Route path='emocional' element={<Emotional />} />
