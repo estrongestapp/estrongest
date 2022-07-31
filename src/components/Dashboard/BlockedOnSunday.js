@@ -1,13 +1,23 @@
-import moment from "moment";
+import styled from 'styled-components';
+import moment from 'moment';
+
+import { Button } from '@mui/material';
+
+import sendTotalPoints from '../helpers/sendPoints';
 
 export default function BlockedOnSunday({ children }) {
     const today = moment().utc(true);
 
     if (today.day() === 0) {
         return (
-            <p>
-                Hoje é domingo! Volte amanhã para começar a preencher.
-            </p>
+            <>
+                <p>
+                    Hoje é domingo! Volte amanhã para começar a preencher.
+                </p>
+                <SendButton variant='contained' onClick={sendTotalPoints}>
+                    Enviar Pontos
+                </SendButton>
+            </>
         );
     } else {
         return (
@@ -17,3 +27,10 @@ export default function BlockedOnSunday({ children }) {
         )
     }
 }
+
+const SendButton = styled(Button)`
+    background-color: #BF211E !important;
+    font-size: 15;
+    height: 30;
+    margin-top: 15px !important;
+`;
