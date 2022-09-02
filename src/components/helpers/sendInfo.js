@@ -7,6 +7,6 @@ export default function sendEncryptedInfo (info) {
 }
 
 function encryptInfo(info) {
-    const encrypted = CryptoJS.AES.encrypt(info, 'chave');
+    const encrypted = CryptoJS.AES.encrypt(info, process.env.REACT_APP_CRYPT_KEY);
     return encrypted.toString();
 }
