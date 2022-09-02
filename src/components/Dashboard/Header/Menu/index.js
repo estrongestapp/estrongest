@@ -5,6 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 
 import sendTotalPoints from '../../../helpers/sendPoints';
+import sendEncryptedInfo from '../../../helpers/sendInfo';
 
 export default function BasicMenu() {
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -23,6 +24,11 @@ export default function BasicMenu() {
 		sendTotalPoints();
 	}
 
+	function sendInfo() {
+		handleClose();
+		sendEncryptedInfo(localStorage.getItem('info'));
+	}
+
 	return (
 		<div>
 			<IconButton
@@ -35,15 +41,16 @@ export default function BasicMenu() {
 				<MenuIcon sx={{ color: 'white' }} />
 			</IconButton>
 			<Menu
-			id="basic-menu"
-			anchorEl={anchorEl}
-			open={open}
-			onClose={handleClose}
-			MenuListProps={{
-				'aria-labelledby': 'basic-button',
-			}}
+				id="basic-menu"
+				anchorEl={anchorEl}
+				open={open}
+				onClose={handleClose}
+				MenuListProps={{
+					'aria-labelledby': 'basic-button',
+				}}
 			>
 				<MenuItem onClick={openAlert}>Enviar pontuação</MenuItem>
+				<MenuItem onClick={sendInfo}>Enviar relatório</MenuItem>
 			</Menu>
 		</div>
 	);
