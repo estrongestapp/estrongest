@@ -8,6 +8,7 @@ import sendTotalPoints from '../../../helpers/sendPoints';
 import sendEncryptedInfo from '../../../helpers/sendInfo';
 import saveProgress from '../../../helpers/saveProgress';
 import signUp from './SignUp';
+import signIn from './SignIn';
 
 export default function BasicMenu() {
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -58,10 +59,15 @@ function NotLoggedMenu({ handleClose }) {
 		signUp();
 	}
 
+	function openSignInAlert() {
+		handleClose();
+		signIn();
+	}
+
 	return (
 		<>
 			<MenuItem onClick={openSignUpAlert}>Cadastrar</MenuItem>
-			<MenuItem>Entrar</MenuItem>
+			<MenuItem onClick={openSignInAlert}>Entrar</MenuItem>
 		</>
 	);
 }
