@@ -15,10 +15,9 @@ function calculateTotalPoints() {
 
     let total = 0;
     for (let i = startWeek; i <= thisWeek ; i++) {
-        const relativeWeek = i - startWeek + 1;
-        const multiplier = Math.ceil(relativeWeek / 5);
-
-        const weekPoints = calculatePoints(information, i) * multiplier;
+        const relativeWeek = i - startWeek;
+        const multiplier = Math.floor(relativeWeek / 5);
+        const weekPoints = calculatePoints(information, i) * (2 ** multiplier);
         total += weekPoints;
     }
 
