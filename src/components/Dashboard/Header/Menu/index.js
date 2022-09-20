@@ -5,7 +5,6 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 
 import sendTotalPoints from '../../../helpers/sendPoints';
-import sendEncryptedInfo from '../../../helpers/sendInfo';
 
 export default function BasicMenu() {
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -22,11 +21,6 @@ export default function BasicMenu() {
 	function openAlert() {
 		handleClose();
 		sendTotalPoints();
-	}
-
-	function sendInfo() {
-		handleClose();
-		sendEncryptedInfo(localStorage.getItem('info'));
 	}
 
 	return (
@@ -50,7 +44,6 @@ export default function BasicMenu() {
 				}}
 			>
 				<MenuItem onClick={openAlert}>Enviar pontuação</MenuItem>
-				<MenuItem onClick={sendInfo}>Enviar relatório</MenuItem>
 			</Menu>
 		</div>
 	);
