@@ -5,7 +5,6 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 
 import sendTotalPoints from '../../../helpers/sendPoints';
-import sendEncryptedInfo from '../../../helpers/sendInfo';
 import saveProgress from '../../../helpers/saveProgress';
 import signUp from './SignUp';
 import signIn from './SignIn';
@@ -21,11 +20,6 @@ export default function BasicMenu() {
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
-
-	function sendInfo() {
-		handleClose();
-		sendEncryptedInfo(localStorage.getItem('info'));
-	}
 
 	return (
 		<div>
