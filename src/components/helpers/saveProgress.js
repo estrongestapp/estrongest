@@ -27,10 +27,14 @@ function organizeInfos() {
 
 function calculateTotalPoints() {
     const information = JSON.parse(localStorage.getItem('info'));
+    const startWeek = moment('2022-06-20').utc(true).week();
+    const thisWeek = moment().utc(true).week();
 
     let total = 0;
-    for (let i = moment('2022-06-20').utc(true).week(); i <= moment().utc(true).week(); i++) {
-        const weekPoints = calculatePoints(information, i);
+    for (let i = startWeek; i <= thisWeek ; i++) {
+        const relativeWeek = i - startWeek;
+        const multiplier = Math.floor(relativeWeek / 5);
+        const weekPoints = calculatePoints(information, i) * (2 ** multiplier);
         total += weekPoints;
     }
 

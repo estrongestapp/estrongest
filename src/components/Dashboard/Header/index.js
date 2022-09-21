@@ -14,7 +14,6 @@ export default function Header() {
     const startWeek = moment('2022-06-20').utc(true).week();
     const week = moment().utc(true).week();
     const multiplier = Math.floor((week - startWeek) / 5);
-    console.log(week - startWeek, multiplier, 2 ** multiplier);
 
     return (
         <Container>

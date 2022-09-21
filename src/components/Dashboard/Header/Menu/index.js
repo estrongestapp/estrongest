@@ -4,7 +4,6 @@ import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 
-import sendTotalPoints from '../../../helpers/sendPoints';
 import saveProgress from '../../../helpers/saveProgress';
 import signUp from './SignUp';
 import signIn from './SignIn';
@@ -20,11 +19,6 @@ export default function BasicMenu() {
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
-
-	function openAlert() {
-		handleClose();
-		sendTotalPoints();
-	}
 
 	return (
 		<div>
@@ -46,7 +40,7 @@ export default function BasicMenu() {
 					'aria-labelledby': 'basic-button',
 				}}
 			>
-				<MenuItem onClick={openAlert}>Enviar pontuação</MenuItem>
+				{localStorage.getItem('user') ? <LoggedMenu handleClose={handleClose} /> : <NotLoggedMenu handleClose={handleClose} />}
 			</Menu>
 		</div>
 	);
@@ -72,11 +66,6 @@ function NotLoggedMenu({ handleClose }) {
 }
 
 function LoggedMenu({ handleClose }) {
-	function openAlert() {
-		handleClose();
-		sendTotalPoints();
-	}
-
 	function logOut() {
 		handleClose();
 		localStorage.removeItem('user');
@@ -90,9 +79,6 @@ function LoggedMenu({ handleClose }) {
 
 	return (
 		<>
-			{/*<MenuItem onClick={openAlert}>Enviar pontuação</MenuItem>
-			<MenuItem onClick={submitProgress}>Enviar relatório</MenuItem>
-			<MenuItem>Perfil</MenuItem>*/}
 			<MenuItem onClick={submitProgress}>Salvar progresso</MenuItem>
 			<MenuItem onClick={logOut}>Sair</MenuItem>
 		</>
