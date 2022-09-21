@@ -8,7 +8,7 @@ function sendPoints (name, points) {
     window.open(`https://wa.me/${number}?text=${encodeURIComponent(`${name}: ${points}`)}`);
 }
 
-function calculateTotalPoints() {
+export default function calculateTotalPoints() {
     const information = JSON.parse(localStorage.getItem('info'));
 
     let total = 0;
@@ -20,7 +20,7 @@ function calculateTotalPoints() {
     return total;
 }
 
-export default function openAlert() {
+/*export default function openAlert() {
     const points = calculateTotalPoints();
 
     Swal.fire({
@@ -47,4 +47,4 @@ export default function openAlert() {
         });
     }
     });
-}
+}*/

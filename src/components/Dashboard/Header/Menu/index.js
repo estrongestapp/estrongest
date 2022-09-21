@@ -78,13 +78,24 @@ function LoggedMenu({ handleClose }) {
 		sendTotalPoints();
 	}
 
+	function logOut() {
+		handleClose();
+		localStorage.removeItem('user');
+		localStorage.removeItem('info');
+	}
+
+	function submitProgress() {
+		handleClose();
+		saveProgress();
+	}
+
 	return (
 		<>
-			<MenuItem onClick={openAlert}>Enviar pontuação</MenuItem>
-			<MenuItem onClick={saveProgress}>Enviar relatório</MenuItem>
-			<MenuItem>Perfil</MenuItem>
-			<MenuItem>Salvar progresso</MenuItem>
-			<MenuItem>Sair</MenuItem>
+			{/*<MenuItem onClick={openAlert}>Enviar pontuação</MenuItem>
+			<MenuItem onClick={submitProgress}>Enviar relatório</MenuItem>
+			<MenuItem>Perfil</MenuItem>*/}
+			<MenuItem onClick={submitProgress}>Salvar progresso</MenuItem>
+			<MenuItem onClick={logOut}>Sair</MenuItem>
 		</>
 	);
 }

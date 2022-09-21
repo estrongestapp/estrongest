@@ -9,3 +9,10 @@ export async function signUp(newUser) {
 export async function signIn(user) {
     return await axios.post(`${BASE_URL}/user/signin`, user);
 }
+
+export async function saveProgress(progress, user) {
+    await axios.post(`${BASE_URL}/infos`, {
+        user,
+        infos: progress,
+    });
+}
