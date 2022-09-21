@@ -11,14 +11,17 @@ import Menu from './Menu';
 
 export default function Header() {
     const { information } = useContext(InformationContext);
+    const startWeek = moment('2022-06-20').utc(true).week();
     const week = moment().utc(true).week();
+    const multiplier = Math.floor((week - startWeek) / 5);
+    console.log(week - startWeek, multiplier, 2 ** multiplier);
 
     return (
         <Container>
             <Menu />
             <Box>
                 <Points>
-                    Pontos essa semana: {calculatePoints(information, week)}/100
+                    Pontos essa semana: {calculatePoints(information, week) * multiplier}/{100 * (2 ** multiplier)}
                 </Points>
             </Box>
         </Container>

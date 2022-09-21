@@ -21,6 +21,11 @@ export default function BasicMenu() {
 		setAnchorEl(null);
 	};
 
+	function openAlert() {
+		handleClose();
+		sendTotalPoints();
+	}
+
 	return (
 		<div>
 			<IconButton
@@ -41,7 +46,7 @@ export default function BasicMenu() {
 					'aria-labelledby': 'basic-button',
 				}}
 			>
-				{localStorage.getItem('user') ? <LoggedMenu handleClose={handleClose} /> : <NotLoggedMenu handleClose={handleClose} />}
+				<MenuItem onClick={openAlert}>Enviar pontuação</MenuItem>
 			</Menu>
 		</div>
 	);
