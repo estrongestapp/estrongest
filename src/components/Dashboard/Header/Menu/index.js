@@ -5,6 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 
 import sendTotalPoints from '../../../helpers/sendPoints';
+import showReport from './Report';
 
 export default function BasicMenu() {
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -21,6 +22,11 @@ export default function BasicMenu() {
 	function openAlert() {
 		handleClose();
 		sendTotalPoints();
+	}
+
+	function openReport() {
+		handleClose();
+		showReport();
 	}
 
 	return (
@@ -44,6 +50,7 @@ export default function BasicMenu() {
 				}}
 			>
 				<MenuItem onClick={openAlert}>Enviar pontuação</MenuItem>
+				<MenuItem onClick={openReport}>Relatório</MenuItem>
 			</Menu>
 		</div>
 	);
