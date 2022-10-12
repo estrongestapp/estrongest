@@ -14,6 +14,7 @@ function organizeInfos() {
     for (const category in information) {
         for (const subCategory in information[category]) {
             for (const week in information[category][subCategory]) {
+                if (week == moment().utc(true).week()) continue;
                 if (!organized[week]) {
                     organized[week] = {};
                 }
@@ -51,17 +52,21 @@ export default async function openAlert() {
         confirmButtonText: 'Sim',
         showCancelButton: true,
         cancelButtonText: 'Cancelar',
-    });
-
-    if (result.isConfirmed) {
-        const user = JSON.parse(localStorage.getItem('user'));
-
-        const infos = organizeInfos();
-
-        await saveProgress(infos, user);
-
-        if (!user.isSynced) {
-            localStorage.setItem('user', JSON.stringify({ ...user, isSynced: true }));
+        showLoaderOnConfirm: true,
+        preConfirm: async () => {
+            const user = JSON.parse(localStorage.getItem('user'));
+    
+            const infos = organizeInfos();
+            
+            try {
+                await saveProgress(infos, user);
+                if (!user.isSynced) {
+                    localStorage.setItem('user', JSON.stringify({ ...user, isSynced: true }));
+                }
+                Swal.fire('Progresso salvo!','', 'success');
+            } catch(error) {
+                Swal.fire(error.response.data, '', 'error');
+            }
         }
-    }
+    });
 }

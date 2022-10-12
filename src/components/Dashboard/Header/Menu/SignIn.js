@@ -2,7 +2,7 @@ import Swal from 'sweetalert2';
 
 import { signIn as signInRequest } from '../../../../api';
 
-export default function signIn() {
+export default async function signIn() {
     openAlert();
 }
 
@@ -56,16 +56,42 @@ async function openAlert() {
                 try {
                     const { data } = await signInRequest(user);
                     const { login, token, isSynced, nome, infos } = data;
-    
-                    localStorage.setItem('user', JSON.stringify({ login, token, isSynced, nome }));
 
+                    const serverInfos = rollback(infos || {});
                     if (isSynced) {
-                        localStorage.setItem('info', JSON.stringify(rollback(infos)));
+                        const localInfos = JSON.parse(localStorage.getItem('info')) || {};
+
+                        for (const category of Object.keys(localInfos)) {
+                            const thisCategory = localInfos[category];
+                            const serverCategory = serverInfos[category] || {};
+
+                            for (const subCategory of Object.keys(thisCategory)) {
+                                const thisSubCategory = thisCategory[subCategory];
+                                const serverSubCategory = serverCategory[subCategory] || {};
+
+                                for (const week of Object.keys(thisSubCategory)) {
+                                    const serverWeek = serverSubCategory[week];
+                                    if (!serverWeek) {
+                                        Object.defineProperty(serverSubCategory, week, {
+                                            value: thisSubCategory[week],
+                                            enumerable: true,
+                                        });
+                                    }
+                                }
+                            }
+                        }
+
+                        localStorage.setItem('info', JSON.stringify(serverInfos));
+                    } else {
+                        const localInfos = JSON.parse(localStorage.getItem('info'));
+                        localStorage.setItem('legacyInfo', JSON.stringify(localInfos));
                     }
+
+                    localStorage.setItem('user', JSON.stringify({ login, token, isSynced, nome }));
     
-                    return;
+                    return serverInfos;
                 } catch (error) {
-                    Swal.showValidationMessage(error.response.data);
+                    Swal.showValidationMessage(error?.response?.data || error);
                 }
             }
         },
@@ -73,6 +99,8 @@ async function openAlert() {
         showCancelButton: true,
         cancelButtonText: 'Cancelar',
     });
+
+    return result.value;
 }
 
 function rollback(infos) {
