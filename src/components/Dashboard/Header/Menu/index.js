@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 
-import sendTotalPoints from '../../../helpers/sendPoints';
+import saveProgress from '../../../helpers/saveProgress';
+import signUp from './SignUp';
+import signIn from './SignIn';
+
+import InformationContext from '../../../../contexts/InformationContext';
 import showReport from './Report';
 
 export default function BasicMenu() {
@@ -18,16 +22,6 @@ export default function BasicMenu() {
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
-
-	function openAlert() {
-		handleClose();
-		sendTotalPoints();
-	}
-
-	function openReport() {
-		handleClose();
-		showReport();
-	}
 
 	return (
 		<div>
@@ -49,9 +43,60 @@ export default function BasicMenu() {
 					'aria-labelledby': 'basic-button',
 				}}
 			>
-				<MenuItem onClick={openAlert}>Enviar pontuação</MenuItem>
-				<MenuItem onClick={openReport}>Relatório</MenuItem>
+				{localStorage.getItem('user') ? <LoggedMenu handleClose={handleClose} /> : <NotLoggedMenu handleClose={handleClose} />}
 			</Menu>
 		</div>
+	);
+}
+
+function NotLoggedMenu({ handleClose }) {
+	const { changeInformation } = useContext(InformationContext);
+
+	function openSignUpAlert() {
+		handleClose();
+		signUp();
+	}
+
+	async function openSignInAlert() {
+		handleClose();
+		await signIn(changeInformation);
+	}
+
+	function openReport() {
+		handleClose();
+		showReport();
+	}
+
+	return (
+		<>
+			<MenuItem onClick={openSignUpAlert}>Cadastrar</MenuItem>
+			<MenuItem onClick={openSignInAlert}>Entrar</MenuItem>
+			<MenuItem onClick={openReport}>Relatório</MenuItem>
+		</>
+	);
+}
+
+function LoggedMenu({ handleClose }) {
+	function logOut() {
+		handleClose();
+		localStorage.removeItem('user');
+	}
+
+	function submitProgress() {
+		handleClose();
+		saveProgress();
+	}
+
+	function openReport() {
+		handleClose();
+		showReport();
+	}
+
+	return (
+		<>
+			<MenuItem onClick={submitProgress}>Salvar progresso</MenuItem>
+			<MenuItem onClick={openReport}>Relatório</MenuItem>
+			<MenuItem onClick={logOut}>Sair</MenuItem>
+		</>
 	);
 }

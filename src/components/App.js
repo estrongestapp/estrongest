@@ -19,6 +19,7 @@ export default function App() {
   function changeInformation(newInformation) {
     setInformation(newInformation);
     localStorage.setItem('info', JSON.stringify(newInformation));
+    localStorage.setItem('legacyInfo', JSON.stringify(newInformation));
   }
 
   return (
