@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
@@ -7,6 +7,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import saveProgress from '../../../helpers/saveProgress';
 import signUp from './SignUp';
 import signIn from './SignIn';
+
+import InformationContext from '../../../../contexts/InformationContext';
 
 export default function BasicMenu() {
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -47,14 +49,16 @@ export default function BasicMenu() {
 }
 
 function NotLoggedMenu({ handleClose }) {
+	const { changeInformation } = useContext(InformationContext);
+
 	function openSignUpAlert() {
 		handleClose();
 		signUp();
 	}
 
-	function openSignInAlert() {
+	async function openSignInAlert() {
 		handleClose();
-		signIn();
+		await signIn(changeInformation);
 	}
 
 	return (
@@ -69,7 +73,6 @@ function LoggedMenu({ handleClose }) {
 	function logOut() {
 		handleClose();
 		localStorage.removeItem('user');
-		localStorage.removeItem('info');
 	}
 
 	function submitProgress() {

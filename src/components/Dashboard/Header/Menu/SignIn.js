@@ -2,11 +2,11 @@ import Swal from 'sweetalert2';
 
 import { signIn as signInRequest } from '../../../../api';
 
-export default async function signIn() {
-    openAlert();
+export default async function signIn(changeInformation) {
+    openAlert(changeInformation);
 }
 
-async function openAlert() {
+async function openAlert(changeInformation) {
     const result = await Swal.fire({
         title: 'Entrar',
         html: 
@@ -57,7 +57,7 @@ async function openAlert() {
                     const { data } = await signInRequest(user);
                     const { login, token, isSynced, nome, infos } = data;
 
-                    const serverInfos = rollback(infos || {});
+                    let serverInfos = rollback(infos || {});
                     if (isSynced) {
                         const localInfos = JSON.parse(localStorage.getItem('info')) || {};
 
@@ -83,13 +83,11 @@ async function openAlert() {
 
                         localStorage.setItem('info', JSON.stringify(serverInfos));
                     } else {
-                        const localInfos = JSON.parse(localStorage.getItem('info'));
-                        localStorage.setItem('legacyInfo', JSON.stringify(localInfos));
+                        serverInfos = JSON.parse(localStorage.getItem('info'));
                     }
 
                     localStorage.setItem('user', JSON.stringify({ login, token, isSynced, nome }));
-    
-                    return serverInfos;
+                    changeInformation(serverInfos);
                 } catch (error) {
                     Swal.showValidationMessage(error?.response?.data || error);
                 }
