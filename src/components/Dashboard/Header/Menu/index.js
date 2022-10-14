@@ -9,6 +9,7 @@ import signUp from './SignUp';
 import signIn from './SignIn';
 
 import InformationContext from '../../../../contexts/InformationContext';
+import showReport from './Report';
 
 export default function BasicMenu() {
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -61,10 +62,16 @@ function NotLoggedMenu({ handleClose }) {
 		await signIn(changeInformation);
 	}
 
+	function openReport() {
+		handleClose();
+		showReport();
+	}
+
 	return (
 		<>
 			<MenuItem onClick={openSignUpAlert}>Cadastrar</MenuItem>
 			<MenuItem onClick={openSignInAlert}>Entrar</MenuItem>
+			<MenuItem onClick={openReport}>Relatório</MenuItem>
 		</>
 	);
 }
@@ -80,9 +87,15 @@ function LoggedMenu({ handleClose }) {
 		saveProgress();
 	}
 
+	function openReport() {
+		handleClose();
+		showReport();
+	}
+
 	return (
 		<>
 			<MenuItem onClick={submitProgress}>Salvar progresso</MenuItem>
+			<MenuItem onClick={openReport}>Relatório</MenuItem>
 			<MenuItem onClick={logOut}>Sair</MenuItem>
 		</>
 	);

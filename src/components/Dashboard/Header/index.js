@@ -20,7 +20,7 @@ export default function Header() {
             <Menu />
             <Box>
                 <Points>
-                    Pontos essa semana: {calculatePoints(information, week) * multiplier}/{100 * (2 ** multiplier)}
+                    Pontos essa semana: {calculatePoints(information, week) * (2 ** multiplier)}/{100 * (2 ** multiplier)}
                 </Points>
             </Box>
         </Container>
