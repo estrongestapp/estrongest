@@ -13,7 +13,8 @@ export default function Header() {
     const { information } = useContext(InformationContext);
     const startWeek = moment('2022-06-20').utc(true).week();
     const week = moment().utc(true).week();
-    const multiplier = Math.floor((week - startWeek) / 5);
+    const sequencialWeek = week < startWeek ? week + startWeek + 1 : week - startWeek;
+    const multiplier = Math.floor(sequencialWeek / 5);
 
     return (
         <Container>
