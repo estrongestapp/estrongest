@@ -29,13 +29,15 @@ function organizeInfos() {
 function calculateTotalPoints() {
     const information = JSON.parse(localStorage.getItem('info'));
     const startWeek = moment('2022-06-20').utc(true).week();
-    const thisWeek = moment().utc(true).week();
+    const week = moment().utc(true).week();
+    const thisWeek = week < startWeek ? moment('2022-12-30').utc(true).week() + week : week;
 
     let total = 0;
     for (let i = startWeek; i <= thisWeek ; i++) {
         const relativeWeek = i - startWeek;
         const multiplier = Math.floor(relativeWeek / 5);
-        const weekPoints = calculatePoints(information, i) * (2 ** multiplier);
+        const weekToCalculate = i > moment('2022-12-30').utc(true).week() ? i - moment('2022-12-30').utc(true).week() : i;
+        const weekPoints = calculatePoints(information, weekToCalculate) * (2 ** multiplier);
         total += weekPoints;
     }
 
@@ -47,7 +49,7 @@ export default async function openAlert() {
 
     const result = await Swal.fire({
         icon: 'question',
-        title: 'Deseja salvar seu prgoresso?',
+        title: 'Deseja salvar seu progresso?',
         text: `Total de pontos: ${points}`,
         confirmButtonText: 'Sim',
         showCancelButton: true,
