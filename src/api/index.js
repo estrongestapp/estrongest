@@ -16,3 +16,10 @@ export async function saveProgress(progress, user) {
         infos: progress,
     });
 }
+
+export async function changePassword(newPassword, token) {
+    await axios.post(`${BASE_URL}/user/change-password`, {
+        newPassword,
+        token,
+    });
+}

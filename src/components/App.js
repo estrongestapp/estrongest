@@ -12,6 +12,7 @@ import Physical from './Dashboard/Physical';
 import Mental from './Dashboard/Mental';
 import Emotional from './Dashboard/Emotional';
 import Spiritual from './Dashboard/Spiritual';
+import ChangePassword from './ChangePassword';
 
 export default function App() {
   const [information, setInformation] = useState(JSON.parse(localStorage.getItem('info')));
@@ -32,6 +33,7 @@ export default function App() {
             <Route path='emocional' element={<Emotional />} />
             <Route path='espiritual' element={<Spiritual />} />
           </Route>
+          <Route path='senha' element={<ChangePassword />} />
         </Routes>
       </InformationContext.Provider>
     </BrowserRouter>
