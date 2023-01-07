@@ -13,6 +13,9 @@ export default function ChangePassword() {
 
     async function saveNewPassword() {
         const errors = {
+            token: {
+                empty: !params.get('token') && 'Você precisa ter um token!',
+            },
             senha: {
                 empty: !newPassword && 'A senha não pode estar vazia!',
                 short: newPassword.length < 4 && 'A senha deve ter pelo menos 4 caracteres!',
