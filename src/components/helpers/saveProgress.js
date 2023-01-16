@@ -31,14 +31,20 @@ function calculateTotalPoints() {
     const startWeek = moment('2022-06-20').utc(true).week();
     const week = moment().utc(true).week();
     const thisWeek = week < startWeek ? moment('2022-12-30').utc(true).week() + week : week;
+    const lastWeek = moment('2023-01-09').week() + moment('2022-12-30').utc(true).week();
 
     let total = 0;
-    for (let i = startWeek; i <= thisWeek ; i++) {
+    for (let i = startWeek; i <= lastWeek ; i++) {
         const relativeWeek = i - startWeek;
         const multiplier = Math.floor(relativeWeek / 5);
         const weekToCalculate = i > moment('2022-12-30').utc(true).week() ? i - moment('2022-12-30').utc(true).week() : i;
         const weekPoints = calculatePoints(information, weekToCalculate) * (2 ** multiplier);
-        total += weekPoints;
+        
+        if (relativeWeek === 29) {
+            total += weekPoints * 2;
+        } else {
+            total += weekPoints;
+        }
     }
 
     return total;

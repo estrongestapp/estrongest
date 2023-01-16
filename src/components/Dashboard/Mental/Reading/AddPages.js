@@ -19,7 +19,7 @@ export default function AddPages({ progress, addPages }) {
             </Title>
             <InputContainer>
                 <Tooltip title='Remover'>
-                    <IconButton onClick={() => handleClick('remove')} disabled={progress <= 0}>
+                    <IconButton onClick={() => handleClick('remove')} /*disabled={progress <= 0}*/ disabled={true}>
                         <RemoveCircle
                             size='inherit'
                             sx={{
@@ -37,9 +37,10 @@ export default function AddPages({ progress, addPages }) {
                     sx={{
                         width: 100,
                     }}
+                    disabled={true}
                 />
                 <Tooltip title='Adicionar'>
-                    <IconButton onClick={() => handleClick('add')} disabled={progress >= 50}>
+                    <IconButton onClick={() => handleClick('add')} /*disabled={progress >= 50}*/ disabled={true}>
                         <AddCircle
                             size='inherit'
                             sx={{

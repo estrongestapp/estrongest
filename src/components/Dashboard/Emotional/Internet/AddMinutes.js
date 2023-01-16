@@ -20,7 +20,7 @@ export default function AddMinutes({ progress, addMinutes }) {
             </Title>
             <InputContainer>
                 <Tooltip title='Remover'>
-                    <IconButton onClick={() => handleClick('remove')} disabled={progress <= 0}>
+                    <IconButton onClick={() => handleClick('remove')} /*disabled={progress <= 0}*/ disabled={true}>
                         <RemoveCircle
                             size='inherit'
                             sx={{
@@ -38,10 +38,11 @@ export default function AddMinutes({ progress, addMinutes }) {
                     sx={{
                         width: 100,
                     }}
-                    disabled={moment().utc(true).day() === 6}
+                    /*disabled={moment().utc(true).day() === 6}*/
+                    disabled={true}
                 />
                 <Tooltip title='Adicionar'>
-                    <IconButton onClick={() => handleClick('add')} disabled={moment().utc(true).day() === 6}>
+                    <IconButton onClick={() => handleClick('add')} /*disabled={moment().utc(true).day() === 6}*/ disabled={true}>
                         <AddCircle
                             size='inherit'
                             sx={{

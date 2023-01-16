@@ -67,6 +67,7 @@ export default function Game() {
                         key={index}
                         control={<Checkbox value={weekday} checked={verifyChecked(weekday)} />}
                         label={weekday}
+                        disabled={true}
                     />
                 )}
             </FormGroup>

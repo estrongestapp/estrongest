@@ -45,8 +45,8 @@ export default function Grade() {
                 onChange={(event) => changeStatus(event.target.value)}
                 sx={{ justifyContent: 'center' }}
             >
-                <FormControlLabel value='yes' control={<Radio />} label='Sim' checked={getProgress()?.length >= 0} />
-                <FormControlLabel value='no' control={<Radio />} label='Não' checked={getProgress() === false} />
+                <FormControlLabel value='yes' control={<Radio />} label='Sim' checked={getProgress()?.length >= 0} disabled={true} />
+                <FormControlLabel value='no' control={<Radio />} label='Não' checked={getProgress() === false} disabled={true} />
             </RadioGroup>
             {getProgress()?.length >= 0 && <AddSubjects subjects={getProgress()} />}
         </Container>

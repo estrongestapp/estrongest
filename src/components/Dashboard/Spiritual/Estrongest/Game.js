@@ -44,8 +44,8 @@ export default function Game() {
                 sx={{ justifyContent: 'center' }}
                 onChange={(event) => changeStatus(event.target.value)}
             >
-                <FormControlLabel value='yes' control={<Radio />} label='Sim' checked={getProgress() === true} />
-                <FormControlLabel value='no' control={<Radio />} label='Não' checked={getProgress() === false} />
+                <FormControlLabel value='yes' control={<Radio />} label='Sim' checked={getProgress() === true} disabled={true} />
+                <FormControlLabel value='no' control={<Radio />} label='Não' checked={getProgress() === false} disabled={true} />
             </RadioGroup>
         </Container>
     );
