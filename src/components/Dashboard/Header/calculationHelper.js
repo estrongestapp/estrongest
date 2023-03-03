@@ -6,7 +6,8 @@ const multipliers = {
     exercicio: 1/32,
     banho: 1,
     estudo: 1/30,
-    leitura: 1/5,
+    idioma: 5,
+    leitura: 1/10,
     notas: -2,
     internet: 2,
     namoro: 10,
@@ -53,11 +54,13 @@ function calculateFisicoPoints(thisWeekFisico) {
 
 function calculateIntelectual(intelecutal, week) {
     const estudo = intelecutal?.estudo || {};
+    const idioma = intelecutal?.idioma || {};
     const leitura = intelecutal?.leitura || {};
     const notas = intelecutal?.notas || {};
 
     const thisWeekIntelectual = {
         estudo: `${week}` in estudo ? estudo[week] : 0,
+        idioma: `${week}` in idioma ? idioma[week] : false,
         leitura: `${week}` in leitura ? leitura[week] : 0,
         notas: `${week}` in notas ? notas[week] : 0,
     };
@@ -66,16 +69,17 @@ function calculateIntelectual(intelecutal, week) {
 }
 
 function calculateIntelectualPoints(thisWeekIntelectual) {
-    const { estudo, leitura, notas } = thisWeekIntelectual;
+    const { estudo, idioma, leitura, notas } = thisWeekIntelectual;
 
     let estudoPoints = estudo * multipliers.estudo;
     let leituraPoints = leitura * multipliers.leitura;
     let notasPoints = notas == false ? 0 : notas.length * multipliers.notas;
+    let idiomaPoints = (idioma ? 1 : 0) * multipliers.idioma;
 
     if (estudoPoints > 10) estudoPoints = 10;
     if (leituraPoints > 10) leituraPoints = 10;
 
-    return Math.floor(estudoPoints) + Math.floor(leituraPoints) + notasPoints;
+    return Math.floor(estudoPoints) + idiomaPoints + Math.floor(leituraPoints) + notasPoints;
 }
 
 function calculateEmocional(emocional, week) {

@@ -6,6 +6,7 @@ import InformationContext from '../../../../contexts/InformationContext';
 
 import AddMinutes from './AddMinutes';
 import WeekProgress from './WeekProgress';
+import NewIdiom from './NewIdiom';
 
 export default function Study() {
     const { information, changeInformation } = useContext(InformationContext);
@@ -40,6 +41,7 @@ export default function Study() {
         <Container>
             <AddMinutes progress={getProgress()} addMinutes={addMinutes} />
             <WeekProgress progress={getProgress()} />
+            <NewIdiom />
         </Container>
     );
 }

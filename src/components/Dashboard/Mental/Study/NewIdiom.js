@@ -8,47 +8,45 @@ import {
     Typography,
     FormControlLabel,
     RadioGroup,
-    Radio,
+    Radio, 
 } from '@mui/material';
 
-import AddSubjects from './AddSubjects';
 
-export default function Grade() {
+export default function NewIdiom() {
     const { information, changeInformation } = useContext(InformationContext);
     const week = moment().utc(true).week();
 
     function changeStatus(status) {
-        const notasProgress = information?.intelectual?.notas || {};
-        notasProgress[week] = status === 'yes' ? [] : false;
+        const idiomaProgress = information?.intelectual?.idioma || {};
+        idiomaProgress[week] = status === 'yes';
 
         changeInformation({
             ...information,
             intelectual: {
                 ...information?.intelectual,
-                notas: notasProgress,
+                idioma: idiomaProgress,
             },
         });
     }
 
     function getProgress() {
-        const notas = information?.intelectual?.notas || {};
-        return `${week}` in notas ? notas[week] : null;
+        const idioma = information?.intelectual?.idioma || {};
+        return `${week}` in idioma ? idioma[week] : null;
     }
 
     return (
         <Container>
             <Title>
-                Você tirou nota baixa essa semana?
+                Você estudou 1 hora de alguma língua esrangeira essa semana?
             </Title>
             <RadioGroup
                 row
-                onChange={(event) => changeStatus(event.target.value)}
                 sx={{ justifyContent: 'center' }}
+                onChange={(event) => changeStatus(event.target.value)}
             >
-                <FormControlLabel value='yes' control={<Radio />} label='Sim' checked={getProgress()?.length >= 0} />
+                <FormControlLabel value='yes' control={<Radio />} label='Sim' checked={getProgress() === true} />
                 <FormControlLabel value='no' control={<Radio />} label='Não' checked={getProgress() === false} />
             </RadioGroup>
-            {getProgress()?.length >= 0 && <AddSubjects subjects={getProgress()} />}
         </Container>
     );
 }
