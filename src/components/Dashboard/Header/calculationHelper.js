@@ -88,7 +88,7 @@ function calculateEmocional(emocional, week) {
 
     const thisWeekEmocional = {
         internet: `${week}` in internet ? internet[week] : {},
-        namoro: `${week}` in namoro ? namoro[week] : false,
+        namoro: `${week}` in namoro ? namoro[week] : null,
     };
 
     return calculateEmocionalPoints(thisWeekEmocional);
@@ -97,21 +97,21 @@ function calculateEmocional(emocional, week) {
 function calculateEmocionalPoints(thisWeekEmocional) {
     const { internet, namoro } = thisWeekEmocional;
 
-    let internetPoints = 10;
+    let internetPoints = 0;
     for (const minutes of Object.values(internet)) {
         let factor;
 
         if (minutes <= 120) {
-            factor = 0;
+            factor = 1;
         } else if (minutes <= 180) {
-            factor = -1;
+            factor = 0;
         } else {
-            factor = -2;
+            factor = -1;
         }
 
         internetPoints += factor * multipliers.internet;
     }
-    let namoroPoints = (namoro ? 0 : 1) * multipliers.namoro;
+    let namoroPoints = (namoro || namoro === null ? 0 : 1) * multipliers.namoro;
 
     return internetPoints + namoroPoints;
 }
