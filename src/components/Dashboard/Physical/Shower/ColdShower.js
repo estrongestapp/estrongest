@@ -11,7 +11,7 @@ import {
     Radio,
 } from '@mui/material';
 
-export default function HealthyFood() {
+export default function ColdShower() {
     const { information, changeInformation } = useContext(InformationContext);
     const week = moment().utc(true).week();
     const today = moment().utc(true).toISOString().substring(0, 10);
