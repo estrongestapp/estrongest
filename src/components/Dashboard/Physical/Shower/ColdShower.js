@@ -17,26 +17,26 @@ export default function HealthyFood() {
     const today = moment().utc(true).toISOString().substring(0, 10);
 
     function changeStatus(status) {
-        const alimentoProgress = information?.fisico?.alimento || {};
-        if (`${week}` in alimentoProgress) {
-            alimentoProgress[week][today] = status === 'yes';
+        const banhoProgress = information?.fisico?.banho || {};
+        if (`${week}` in banhoProgress) {
+            banhoProgress[week][today] = status === 'yes';
         } else {
-            alimentoProgress[week] = {};
-            alimentoProgress[week][today] = status === 'yes';
+            banhoProgress[week] = {};
+            banhoProgress[week][today] = status === 'yes';
         }
 
         changeInformation({
             ...information,
             fisico: {
                 ...information?.fisico,
-                alimento: alimentoProgress,
+                banho: banhoProgress,
             },
         });
     }
 
     function getCheckedDay() {
-        const alimento = information?.fisico?.alimento || {};
-        const thisWeekProgress = `${week}` in alimento ? alimento[week] : {};
+        const banho = information?.fisico?.banho || {};
+        const thisWeekProgress = `${week}` in banho ? banho[week] : {};
 
         if (`${today}` in thisWeekProgress) {
             return thisWeekProgress[today];
@@ -48,7 +48,7 @@ export default function HealthyFood() {
     return (
         <Container>
             <Title>
-                Você comeu 3 porções de legume, fruta ou verdura hoje?
+                Você tomou um banho gelado de pelo menos 30 segundos essa manhã?
             </Title>
             <RadioGroup
                 row
