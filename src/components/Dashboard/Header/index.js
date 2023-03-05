@@ -9,19 +9,21 @@ import { Typography } from '@mui/material';
 
 import Menu from './Menu';
 
+const START_DATE = process.env.REACT_APP_START_DATE;
+
 export default function Header() {
     const { information } = useContext(InformationContext);
-    const startWeek = moment('2022-06-20').utc(true).week();
+    const startWeek = moment(START_DATE).utc(true).week();
     const week = moment().utc(true).week();
     const sequencialWeek = week < startWeek ? week + startWeek + 1 : week - startWeek;
-    const multiplier = Math.floor(sequencialWeek / 5);
+    const multiplier = moment().day(0).month() + 1;
 
     return (
         <Container>
             <Menu />
             <Box>
                 <Points>
-                    Pontos essa semana: {calculatePoints(information, week)}/100
+                    Pontos essa semana: {calculatePoints(information, week) * multiplier}/{100 * multiplier}
                 </Points>
             </Box>
         </Container>

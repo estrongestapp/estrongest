@@ -13,11 +13,11 @@ const multipliers = {
     namoro: 10,
     reuniao: 5,
     game: 2,
-    culto: 5,
-    ministerio: 5,
-    live: 3,
+    visitante: 10,
+    culto: 4,
+    ministerio: 3,
     tarefa: 2,
-    boaAcao: 3,
+    boaAcao: 2,
 };
 
 function calculateFisico(fisico, week) {
@@ -119,18 +119,18 @@ function calculateEmocionalPoints(thisWeekEmocional) {
 function calculateEspiritual(espiritual, week) {
     const reuniao = espiritual?.reuniao || {};
     const game = espiritual?.game || {};
+    const visitante = espiritual?.visitante || {};
     const culto = espiritual?.culto || {};
     const ministerio = espiritual?.ministerio || {};
-    const live = espiritual?.live || {};
     const tarefa = espiritual?.tarefa || {};
     const boaAcao = espiritual?.boaAcao || {};
 
     const thisWeekEspiritual = {
         reuniao: `${week}` in reuniao ? reuniao[week] : false,
         game: `${week}` in game ? game[week] : false,
+        visitante: `${week}` in visitante ? visitante[week] : false,
         culto: `${week}` in culto ? culto[week] : false,
         ministerio: `${week}` in ministerio ? ministerio[week] : false,
-        live: `${week}` in live ? live[week] : false,
         tarefa: `${week}` in tarefa ? tarefa[week] : {},
         boaAcao: `${week}` in boaAcao ? boaAcao[week] : 0,
     };
@@ -139,19 +139,19 @@ function calculateEspiritual(espiritual, week) {
 }
 
 function calculateEspiritualPoints(thisWeekEspiritual) {
-    const { reuniao, game, culto, ministerio, live, tarefa, boaAcao } = thisWeekEspiritual;
+    const { reuniao, game, visitante, culto, ministerio, tarefa, boaAcao } = thisWeekEspiritual;
 
     let reuniaoPoints = (reuniao ? 1 : 0) * multipliers.reuniao;
     let gamePoints = (game ? 1 : 0) * multipliers.game;
+    let visitantePoints = (visitante ? 1 : 0) * multipliers.visitante;
     let cultoPoints = (culto ? 1 : 0) * multipliers.culto;
     let ministerioPoints = (ministerio ? 1 : 0) * multipliers.ministerio;
-    let livePoints = (live ? 1 : 0) * multipliers.live;
     let tarefaPoints = Object.values(tarefa).filter((value) => value).length * multipliers.tarefa;
     let boaAcaoPoints = boaAcao * multipliers.boaAcao;
 
-    if (boaAcao >= 3) boaAcaoPoints = 10;
+    if (boaAcao >= 3) boaAcaoPoints = 6;
 
-    return reuniaoPoints + gamePoints + cultoPoints + ministerioPoints + livePoints + tarefaPoints + boaAcaoPoints;
+    return reuniaoPoints + gamePoints + visitantePoints + cultoPoints + ministerioPoints + tarefaPoints + boaAcaoPoints;
 }
 
 export default function calculatePoints(information, week) {
