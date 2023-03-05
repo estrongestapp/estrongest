@@ -37,15 +37,15 @@ export default function WeekMeeting() {
     return (
         <Container>
             <Title>
-                Você foi na reunião do ESTROGNEST essa semana?
+                Você foi na reunião do ESTRONG(EST) essa semana?
             </Title>
             <RadioGroup
                 row
                 sx={{ justifyContent: 'center' }}
                 onChange={(event) => changeStatus(event.target.value)}
             >
-                <FormControlLabel value='yes' control={<Radio />} label='Sim' checked={getProgress() === true} disabled={true} />
-                <FormControlLabel value='no' control={<Radio />} label='Não' checked={getProgress() === false} disabled={true} />
+                <FormControlLabel value='yes' control={<Radio />} label='Sim' checked={getProgress() === true} />
+                <FormControlLabel value='no' control={<Radio />} label='Não' checked={getProgress() === false} />
             </RadioGroup>
         </Container>
     );

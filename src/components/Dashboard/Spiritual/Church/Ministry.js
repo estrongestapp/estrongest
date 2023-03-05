@@ -52,8 +52,8 @@ export default function Ministry() {
                 sx={{ justifyContent: 'center' }}
                 onChange={(event) => temporaryActive(event.target.value)}
             >
-                <FormControlLabel value='yes' control={<Radio />} label='Sim' checked={temporary === true} disabled={true} />
-                <FormControlLabel value='no' control={<Radio />} label='Não' checked={temporary === false} disabled={true} />
+                <FormControlLabel value='yes' control={<Radio />} label='Sim' checked={temporary === true} />
+                <FormControlLabel value='no' control={<Radio />} label='Não' checked={temporary === false} />
             </RadioGroup>
             <Details
                 temporary={temporary}

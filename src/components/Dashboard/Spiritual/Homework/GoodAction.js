@@ -44,7 +44,7 @@ export default function GoodAction() {
                     text={`${getProgress()}`}
                 />
                 <Tooltip title='Remover'>
-                    <IconButton onClick={() => handleClick('remove')} /*disabled={getProgress() <= 0}*/ disabled={true}>
+                    <IconButton onClick={() => handleClick('remove')} disabled={getProgress() <= 0}>
                         <RemoveCircle
                             size='inherit'
                             sx={{
@@ -55,7 +55,7 @@ export default function GoodAction() {
                     </IconButton>
                 </Tooltip>
                 <Tooltip title='Adicionar'>
-                    <IconButton onClick={() => handleClick('add')} /*disabled={getProgress() >= 3}*/ disabled={true}>
+                    <IconButton onClick={() => handleClick('add')} disabled={getProgress() >= 3}>
                         <AddCircle
                             size='inherit'
                             sx={{
