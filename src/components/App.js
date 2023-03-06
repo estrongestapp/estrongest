@@ -14,8 +14,16 @@ import Emotional from './Dashboard/Emotional';
 import Spiritual from './Dashboard/Spiritual';
 import ChangePassword from './ChangePassword';
 
+const SEASON = process.env.REACT_APP_SEASON;
+
 export default function App() {
   const [information, setInformation] = useState(JSON.parse(localStorage.getItem('info')));
+
+  const userSeason = localStorage.getItem('season');
+  if (userSeason !== SEASON) {
+    localStorage.clear();
+    localStorage.setItem('season', SEASON);
+  }
 
   function changeInformation(newInformation) {
     setInformation(newInformation);

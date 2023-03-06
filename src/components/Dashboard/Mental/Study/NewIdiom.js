@@ -12,32 +12,32 @@ import {
 } from '@mui/material';
 
 
-export default function WeekMeeting() {
+export default function NewIdiom() {
     const { information, changeInformation } = useContext(InformationContext);
     const week = moment().utc(true).week();
 
     function changeStatus(status) {
-        const reuniaoProgress = information?.espiritual?.reuniao || {};
-        reuniaoProgress[week] = status === 'yes';
+        const idiomaProgress = information?.intelectual?.idioma || {};
+        idiomaProgress[week] = status === 'yes';
 
         changeInformation({
             ...information,
-            espiritual: {
-                ...information?.espiritual,
-                reuniao: reuniaoProgress,
+            intelectual: {
+                ...information?.intelectual,
+                idioma: idiomaProgress,
             },
         });
     }
 
     function getProgress() {
-        const reuniao = information?.espiritual?.reuniao || {};
-        return `${week}` in reuniao ? reuniao[week] : null;
+        const idioma = information?.intelectual?.idioma || {};
+        return `${week}` in idioma ? idioma[week] : null;
     }
 
     return (
         <Container>
             <Title>
-                Você foi na reunião do ESTRONG(EST) essa semana?
+                Você estudou 1 hora de alguma língua esrangeira essa semana?
             </Title>
             <RadioGroup
                 row

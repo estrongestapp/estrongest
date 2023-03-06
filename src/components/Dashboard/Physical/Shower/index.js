@@ -1,13 +1,11 @@
 import styled from 'styled-components';
 
-import WeekMeeting from './WeekMeeting';
-import Ministry from './Ministry';
+import ColdShower from './ColdShower';
 
-export default function Church() {
+export default function Feeding() {
     return (
         <Container>
-            <WeekMeeting />
-            <Ministry />
+            <ColdShower />
         </Container>
     );
 }

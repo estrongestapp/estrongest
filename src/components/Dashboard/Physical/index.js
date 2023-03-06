@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import TabPanel from '../TabPanel';
 import Exercise from './Exercise';
 import Feeding from './Feeding';
+import ColdShower from './Shower';
 
 function a11yProps(index) {
     return {
@@ -28,6 +29,7 @@ export default function Physical() {
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                     <Tab label='Exercício' {...a11yProps(0)} />
                     <Tab label='Alimentação' {...a11yProps(1)} />
+                    <Tab label='Banho' {...a11yProps(2)} />
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
@@ -35,6 +37,9 @@ export default function Physical() {
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <Feeding />
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+                <ColdShower />
             </TabPanel>
         </Box>
     );

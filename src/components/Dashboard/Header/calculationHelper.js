@@ -3,29 +3,33 @@
 const multipliers = {
     agua: 1,
     alimento: 1,
-    exercicio: 1/18,
+    exercicio: 1/32,
+    banho: 1,
     estudo: 1/30,
-    leitura: 1/5,
+    idioma: 5,
+    leitura: 1/10,
     notas: -2,
     internet: 2,
     namoro: 10,
     reuniao: 5,
     game: 2,
-    culto: 5,
-    ministerio: 5,
-    live: 3,
+    visitante: 10,
+    culto: 4,
+    ministerio: 3,
     tarefa: 2,
-    boaAcao: 3,
+    boaAcao: 2,
 };
 
 function calculateFisico(fisico, week) {
     const agua = fisico?.agua || {};
     const alimento = fisico?.alimento || {};
+    const banho = fisico?.banho || {};
     const exercicio = fisico?.exercicio || {};
 
     const thisWeekFisico = {
         agua: `${week}` in agua ? agua[week] : {},
         alimento: `${week}` in alimento ? alimento[week] : {},
+        banho: `${week}` in banho ? banho[week] : {},
         exercicio: `${week}` in exercicio ? exercicio[week] : 0,
     };
 
@@ -33,26 +37,30 @@ function calculateFisico(fisico, week) {
 }
 
 function calculateFisicoPoints(thisWeekFisico) {
-    const { agua, alimento, exercicio } = thisWeekFisico;
+    const { agua, alimento, banho, exercicio } = thisWeekFisico;
 
     let aguaPoints = Object.values(agua).filter((value) => value).length * multipliers.agua;
     let alimentoPoints = Object.values(alimento).filter((value) => value).length * multipliers.alimento;
+    let banhoPoints = Object.values(banho).filter((value) => value).length * multipliers.banho;
     let exercicioPoints = exercicio * multipliers.exercicio;
 
     if (aguaPoints > 5) aguaPoints = 5;
     if (alimentoPoints > 5) alimentoPoints = 5;
+    if (banhoPoints > 5) banhoPoints = 5;
     if (exercicioPoints > 10) exercicioPoints = 10;
 
-    return aguaPoints + alimentoPoints + Math.floor(exercicioPoints);
+    return aguaPoints + alimentoPoints + banhoPoints + Math.floor(exercicioPoints);
 }
 
 function calculateIntelectual(intelecutal, week) {
     const estudo = intelecutal?.estudo || {};
+    const idioma = intelecutal?.idioma || {};
     const leitura = intelecutal?.leitura || {};
     const notas = intelecutal?.notas || {};
 
     const thisWeekIntelectual = {
         estudo: `${week}` in estudo ? estudo[week] : 0,
+        idioma: `${week}` in idioma ? idioma[week] : false,
         leitura: `${week}` in leitura ? leitura[week] : 0,
         notas: `${week}` in notas ? notas[week] : 0,
     };
@@ -61,16 +69,17 @@ function calculateIntelectual(intelecutal, week) {
 }
 
 function calculateIntelectualPoints(thisWeekIntelectual) {
-    const { estudo, leitura, notas } = thisWeekIntelectual;
+    const { estudo, idioma, leitura, notas } = thisWeekIntelectual;
 
     let estudoPoints = estudo * multipliers.estudo;
     let leituraPoints = leitura * multipliers.leitura;
     let notasPoints = notas == false ? 0 : notas.length * multipliers.notas;
+    let idiomaPoints = (idioma ? 1 : 0) * multipliers.idioma;
 
     if (estudoPoints > 10) estudoPoints = 10;
     if (leituraPoints > 10) leituraPoints = 10;
 
-    return Math.floor(estudoPoints) + Math.floor(leituraPoints) + notasPoints;
+    return Math.floor(estudoPoints) + idiomaPoints + Math.floor(leituraPoints) + notasPoints;
 }
 
 function calculateEmocional(emocional, week) {
@@ -79,7 +88,7 @@ function calculateEmocional(emocional, week) {
 
     const thisWeekEmocional = {
         internet: `${week}` in internet ? internet[week] : {},
-        namoro: `${week}` in namoro ? namoro[week] : false,
+        namoro: `${week}` in namoro ? namoro[week] : null,
     };
 
     return calculateEmocionalPoints(thisWeekEmocional);
@@ -88,21 +97,21 @@ function calculateEmocional(emocional, week) {
 function calculateEmocionalPoints(thisWeekEmocional) {
     const { internet, namoro } = thisWeekEmocional;
 
-    let internetPoints = 10;
+    let internetPoints = 0;
     for (const minutes of Object.values(internet)) {
         let factor;
 
         if (minutes <= 120) {
-            factor = 0;
+            factor = 1;
         } else if (minutes <= 180) {
-            factor = -1;
+            factor = 0;
         } else {
-            factor = -2;
+            factor = -1;
         }
 
         internetPoints += factor * multipliers.internet;
     }
-    let namoroPoints = (namoro ? 0 : 1) * multipliers.namoro;
+    let namoroPoints = (namoro || namoro === null ? 0 : 1) * multipliers.namoro;
 
     return internetPoints + namoroPoints;
 }
@@ -110,18 +119,18 @@ function calculateEmocionalPoints(thisWeekEmocional) {
 function calculateEspiritual(espiritual, week) {
     const reuniao = espiritual?.reuniao || {};
     const game = espiritual?.game || {};
+    const visitante = espiritual?.visitante || {};
     const culto = espiritual?.culto || {};
     const ministerio = espiritual?.ministerio || {};
-    const live = espiritual?.live || {};
     const tarefa = espiritual?.tarefa || {};
     const boaAcao = espiritual?.boaAcao || {};
 
     const thisWeekEspiritual = {
         reuniao: `${week}` in reuniao ? reuniao[week] : false,
         game: `${week}` in game ? game[week] : false,
+        visitante: `${week}` in visitante ? visitante[week] : false,
         culto: `${week}` in culto ? culto[week] : false,
         ministerio: `${week}` in ministerio ? ministerio[week] : false,
-        live: `${week}` in live ? live[week] : false,
         tarefa: `${week}` in tarefa ? tarefa[week] : {},
         boaAcao: `${week}` in boaAcao ? boaAcao[week] : 0,
     };
@@ -130,19 +139,19 @@ function calculateEspiritual(espiritual, week) {
 }
 
 function calculateEspiritualPoints(thisWeekEspiritual) {
-    const { reuniao, game, culto, ministerio, live, tarefa, boaAcao } = thisWeekEspiritual;
+    const { reuniao, game, visitante, culto, ministerio, tarefa, boaAcao } = thisWeekEspiritual;
 
     let reuniaoPoints = (reuniao ? 1 : 0) * multipliers.reuniao;
     let gamePoints = (game ? 1 : 0) * multipliers.game;
+    let visitantePoints = (visitante ? 1 : 0) * multipliers.visitante;
     let cultoPoints = (culto ? 1 : 0) * multipliers.culto;
     let ministerioPoints = (ministerio ? 1 : 0) * multipliers.ministerio;
-    let livePoints = (live ? 1 : 0) * multipliers.live;
     let tarefaPoints = Object.values(tarefa).filter((value) => value).length * multipliers.tarefa;
     let boaAcaoPoints = boaAcao * multipliers.boaAcao;
 
-    if (boaAcao >= 3) boaAcaoPoints = 10;
+    if (boaAcao >= 3) boaAcaoPoints = 6;
 
-    return reuniaoPoints + gamePoints + cultoPoints + ministerioPoints + livePoints + tarefaPoints + boaAcaoPoints;
+    return reuniaoPoints + gamePoints + visitantePoints + cultoPoints + ministerioPoints + tarefaPoints + boaAcaoPoints;
 }
 
 export default function calculatePoints(information, week) {

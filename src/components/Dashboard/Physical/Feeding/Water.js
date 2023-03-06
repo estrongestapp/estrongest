@@ -60,16 +60,14 @@ export default function Water() {
                     control={<Radio />}
                     label='Sim'
                     checked={getCheckedDay() === true}
-                    /*disabled={moment().utc(true).day() === 6}*/
-                    disabled={true}
+                    disabled={moment().utc(true).day() === 6}
                 />
                 <FormControlLabel
                     value='no'
                     control={<Radio />}
                     label='Não'
                     checked={getCheckedDay() === false}
-                    /*disabled={moment().utc(true).day() === 6}*/
-                    disabled={true}
+                    disabled={moment().utc(true).day() === 6}
                 />
             </RadioGroup>
         </Container>
