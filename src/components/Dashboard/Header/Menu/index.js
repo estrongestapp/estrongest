@@ -69,8 +69,8 @@ function NotLoggedMenu({ handleClose }) {
 
 	return (
 		<>
-			<MenuItem onClick={openSignUpAlert}>Cadastrar</MenuItem>
-			<MenuItem onClick={openSignInAlert}>Entrar</MenuItem>
+			{/*<MenuItem onClick={openSignUpAlert}>Cadastrar</MenuItem>
+			<MenuItem onClick={openSignInAlert}>Entrar</MenuItem>*/}
 			<MenuItem onClick={openReport}>Relatório</MenuItem>
 		</>
 	);
