@@ -11,6 +11,7 @@ import {
     Radio,
     TextField,
     Button,
+    Chip,
 } from '@mui/material';
 
 const week = moment().utc(true).week();
@@ -18,20 +19,23 @@ const week = moment().utc(true).week();
 export default function Ministry() {
     const { information, changeInformation } = useContext(InformationContext);
     const ministerio = information?.espiritual?.ministerio || {};
-    const [temporary, setTemporary] = useState(!!ministerio[week]);
-    const [description, setDescription] = useState(ministerio[week] || '');
+    const [temporary, setTemporary] = useState();
+    const [description, setDescription] = useState(ministerio[week] === null ? null : ministerio[week]);
 
     function temporaryActive(status) {
         if (status === 'no') {
-            setDescription('');
+            setDescription(false);
             changeStatus(true);
+        } else {
+            setDescription('');
         }
         setTemporary(status === 'yes');
     }
 
     function changeStatus(clear) {
         const ministerioProgress = information?.espiritual?.ministerio || {};
-        ministerioProgress[week] = clear === true ? '' : description;
+        ministerioProgress[week] = clear === true ? false : description;
+        setTemporary(null);
 
         changeInformation({
             ...information,
@@ -52,8 +56,8 @@ export default function Ministry() {
                 sx={{ justifyContent: 'center' }}
                 onChange={(event) => temporaryActive(event.target.value)}
             >
-                <FormControlLabel value='yes' control={<Radio />} label='Sim' checked={temporary === true} />
-                <FormControlLabel value='no' control={<Radio />} label='Não' checked={temporary === false} />
+                <FormControlLabel value='yes' control={<Radio />} label='Sim' checked={description || temporary === true} />
+                <FormControlLabel value='no' control={<Radio />} label='Não' checked={description === false && temporary !== true} />
             </RadioGroup>
             <Details
                 temporary={temporary}
@@ -69,7 +73,7 @@ export default function Ministry() {
 function Details({ temporary, information, description, setDescription, changeStatus }) {
     const ministerio = information?.espiritual?.ministerio || {};
 
-    if (temporary || (`${week}` in ministerio && ministerio[week])) {
+    if (temporary) {
         return (
             <>
                 <Typography>
@@ -89,9 +93,22 @@ function Details({ temporary, information, description, setDescription, changeSt
                 </SaveButton>
             </>
         );
+    } else if (`${week}` in ministerio && ministerio[week]) {
+        return (
+            <Description description={description} />
+        );
     } else {
         return null;
     }
+}
+
+function Description({ description }) {
+    return (
+        <Chip
+            label={`${description}`}
+            variant="outlined"
+        />
+    );
 }
 
 const Container = styled.div`
