@@ -13,6 +13,7 @@ import Mental from './Dashboard/Mental';
 import Emotional from './Dashboard/Emotional';
 import Spiritual from './Dashboard/Spiritual';
 import ChangePassword from './ChangePassword';
+import Debug from './Debug';
 
 const SEASON = process.env.REACT_APP_SEASON;
 
@@ -42,6 +43,7 @@ export default function App() {
             <Route path='espiritual' element={<Spiritual />} />
           </Route>
           <Route path='senha' element={<ChangePassword />} />
+          <Route path='debug' element={<Debug />} />
         </Routes>
       </InformationContext.Provider>
     </BrowserRouter>
